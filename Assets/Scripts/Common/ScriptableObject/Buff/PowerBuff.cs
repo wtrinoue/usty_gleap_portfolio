@@ -19,7 +19,7 @@ public class PowerBuff : Buff
     public override BuffStatus BuffStatus { get => _buffStatus; set => _buffStatus =  value;}
     public override int ObjectId { get => _objectId; set => _objectId = value; }
 
-    public override void EmbedBuff(StatusManager statusManager)
+    public override void EmbedBuff(BuffStatus temporaryBuffStatus)
     {
         return;
     }
