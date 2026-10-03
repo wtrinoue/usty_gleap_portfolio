@@ -14,7 +14,7 @@ public class CharacterGenerator : EditorWindow
     [MenuItem("Usty/CharacterGenerator")]
     private static void Open()
     {
-        GetWindow<CharacterGenerator>("Usty");
+        GetWindow<CharacterGenerator>("Character Generator");
     }
 
     private void OnEnable()
