@@ -1,7 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-
+using UnityEngine.Rendering;
+[RequireComponent(typeof(SpriteMask))]
+[RequireComponent(typeof(SortingGroup))]
 public class EffectGenerator : MonoBehaviour
 {
     public float effectInterval = 1.0f;
@@ -10,6 +12,11 @@ public class EffectGenerator : MonoBehaviour
     private Dictionary<EffectType, float> keyValuePairs = new Dictionary<EffectType, float>();
     private Dictionary<GameObject, float> sourceEffectDurations = new Dictionary<GameObject, float>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    void Reset()
+    {
+        GetComponent<SpriteMask>().maskSource = SpriteMask.MaskSource.SupportedRenderers;
+    }
     void Start()
     {
         GameObject effectActor = Instantiate(effectActorPrefab, transform);
