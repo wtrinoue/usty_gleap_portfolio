@@ -15,5 +15,6 @@ public class HpBarGenerator : MonoBehaviour
         hpBar.SetTarget(transform);
         hpBar.SetOffset(height);
         hpBar.Initialize();
+        hpBarObject.transform.SetParent(transform);
     }
 }
