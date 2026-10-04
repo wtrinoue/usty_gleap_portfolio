@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModifierItem
   modifierDefinition: {fileID: 11400000, guid: 9a713657d44ece64f94f2382dde12bb7, type: 2}
+  effectType: 1
 --- !u!60 &4699470017344582454
 PolygonCollider2D:
   m_ObjectHideFlags: 0

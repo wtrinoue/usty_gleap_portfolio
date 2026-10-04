@@ -5,6 +5,7 @@ public class ModifierItem : MonoBehaviour
 {
     [Header("Effect Setting")]
     [SerializeField] private ModifierDefinition modifierDefinition;
+    [SerializeField] private EffectType effectType;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -18,6 +19,7 @@ public class ModifierItem : MonoBehaviour
         if (modifierDefinition == null) return;
         StatusContainer playerSC = other.gameObject.GetComponent<StatusContainer>();
         playerSC.AddModifier(new Modifier(modifierDefinition, gameObject));
+        other.gameObject.GetComponent<EffectGenerator>().AddEffect(gameObject, effectType, modifierDefinition.duration);
         Destroy(gameObject);
     }
 }
