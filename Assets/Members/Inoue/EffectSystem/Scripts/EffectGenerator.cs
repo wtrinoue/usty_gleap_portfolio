@@ -31,7 +31,7 @@ public class EffectGenerator : MonoBehaviour
     {
         if (sourceEffectDurations.ContainsKey(source)) return;
         bool isFisrtEffect = RotationFinished();
-        keyValuePairs[effectType] += duration;
+        keyValuePairs[effectType] = duration;
         sourceEffectDurations[source] = duration;
         if (!isFisrtEffect) return;
         StartCoroutine(EffectRotation(effectInterval));
