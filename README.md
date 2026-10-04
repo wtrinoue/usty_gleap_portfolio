@@ -31,6 +31,6 @@
 素材役割分担ホワイトボード（Canva）: https://canva.link/fbwm8e977e32r6q
 
 # 🎨 使用アセットについて
-スライム：https://assetstore.unity.com/packages/2d/characters/slime-enemy-pixel-art-228568
+スライム：https://assetstore.unity.com/packages/2d/characters/slime-enemy-pixel-art-228568  
 ステージアセット（仮組）：https://assetstore.unity.com/packages/2d/environments/2d-topdown-grassland-the-jungle-285671#description
 
