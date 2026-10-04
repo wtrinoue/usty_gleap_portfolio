@@ -19,4 +19,14 @@ public class EffectAnimation : MonoBehaviour
     {
         animator.SetTrigger("StunTrigger");
     }
+
+    public void Speed()
+    {
+        animator.SetTrigger("SpeedTrigger");
+    }
+
+    public void Heal()
+    {
+        animator.SetTrigger("HealTrigger");
+    }
 }

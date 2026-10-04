@@ -63,6 +63,12 @@ public class EffectGenerator : MonoBehaviour
             case EffectType.Stun:
                 ea.Stun();
                 break;
+            case EffectType.Speed:
+                ea.Speed();
+                break;
+            case EffectType.Heal:
+                ea.Heal();
+                break;
         }
     }
 
@@ -107,5 +113,7 @@ public class EffectGenerator : MonoBehaviour
 public enum EffectType
 {
     Poison,
-    Stun
+    Stun,
+    Speed,
+    Heal,
 }
