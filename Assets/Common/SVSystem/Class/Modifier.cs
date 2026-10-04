@@ -5,6 +5,8 @@ public class Modifier
 {
     public GameObject Source { get; }
 
+    public string SourceName { get; }
+
     public ModifierDefinition Definition { get; }
 
     public ModifierType Type => Definition.type;
@@ -21,6 +23,7 @@ public class Modifier
     {
         Definition = definition;
         Source = source;
+        SourceName = source != null ? source.name : "不明な対象";
         RemainingTime = definition.duration;
         IntervalTimer = definition.interval;
     }

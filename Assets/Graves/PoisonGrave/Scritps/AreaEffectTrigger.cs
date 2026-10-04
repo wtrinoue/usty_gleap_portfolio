@@ -18,6 +18,7 @@ public class AreaEffectTrigger : MonoBehaviour
             // エフェクトのコピーを作成して追加
             Modifier modifier = new Modifier(modifierDefinition, gameObject);
             statusContainer.AddModifier(modifier);
+            other.GetComponent<EffectGenerator>()?.AddEffect(gameObject, EffectType.Poison, modifierDefinition.duration);
         }
     }
 

@@ -7,6 +7,9 @@ public class ModifierContainer
     private readonly Dictionary<ModifierKey, Modifier> effects = new();
     private readonly StatusVector buffResult = new StatusVector();
 
+    public IReadOnlyDictionary<ModifierKey, Modifier> Buffs => buffs;
+    public IReadOnlyDictionary<ModifierKey, Modifier> Effects => effects;
+
     public void Add(Modifier modifier)
     {
         var key = CreateKey(modifier);

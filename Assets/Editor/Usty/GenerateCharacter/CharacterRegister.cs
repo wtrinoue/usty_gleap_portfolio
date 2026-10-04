@@ -21,6 +21,7 @@ public enum UstyCategory
     WeaponItem,
     GraveItem,
     ModifierItem,
+    Grave,
 }
 
 

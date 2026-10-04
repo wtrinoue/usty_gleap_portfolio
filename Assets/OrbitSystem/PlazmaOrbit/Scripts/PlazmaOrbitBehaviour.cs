@@ -20,6 +20,7 @@ public class PlazmaOrbitBehaviour : MonoBehaviour
             // Stun effect application
             Modifier modifier = new Modifier(modifierDefinition, this.gameObject);
             enemySC.AddModifier(modifier);
+            collision.gameObject.GetComponent<EffectGenerator>().AddEffect(gameObject, EffectType.Stun, modifierDefinition.duration);
         }
     }
 }
