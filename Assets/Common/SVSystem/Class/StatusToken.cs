@@ -70,3 +70,22 @@ public class DeadToken : StatusToken
         }
     }
 }
+
+public class LimitHPToken : StatusToken
+{
+    private float maxHP;
+
+    public override void ExtractStatus(in StatusVector s)
+    {
+        maxHP = s.Get(StatusCategory.HP, StatusMethod.Base);
+    }
+
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        float currentHP = target.Get(StatusCategory.HP, StatusMethod.Base);
+        if (currentHP > maxHP)
+        {
+            target.Set(StatusCategory.HP, StatusMethod.Base, maxHP);
+        }
+    }
+}
