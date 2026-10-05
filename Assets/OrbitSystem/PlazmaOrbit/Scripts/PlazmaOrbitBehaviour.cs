@@ -8,6 +8,16 @@ public class PlazmaOrbitBehaviour : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        CollideAction(collision.collider);
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        CollideAction(collider);
+    }
+
+    private void CollideAction(Collider2D collision)
+    {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             StatusContainer enemySC = collision.gameObject.GetComponent<StatusContainer>();

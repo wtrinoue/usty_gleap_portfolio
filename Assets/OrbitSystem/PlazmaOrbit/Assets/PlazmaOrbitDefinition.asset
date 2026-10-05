@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlazmaOrbitDefinition
   m_EditorClassIdentifier: Assembly-CSharp::ModifierDefinition
   type: 0
-  duration: 5
+  duration: 0.5
   interval: 0
   modifiers:
   - category: 4

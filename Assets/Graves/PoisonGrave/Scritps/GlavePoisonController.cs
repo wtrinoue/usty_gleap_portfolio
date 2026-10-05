@@ -5,6 +5,7 @@ public class gravePoisonController : MonoBehaviour
     [Header("Effect Area Settings")]
     [SerializeField] private float effectRadius = 2f;
     [SerializeField] private ModifierDefinition modifierDefinition;
+    [SerializeField] private GameObject areaCircle;
 
     private GameObject effectArea;
 
@@ -38,6 +39,11 @@ public class gravePoisonController : MonoBehaviour
                 field.SetValue(trigger, modifierDefinition);
             }
         }
+
+        // エフェクトエリアにオブジェクトを設置
+        areaCircle.transform.localPosition = Vector3.zero;
+        areaCircle.transform.localScale = new Vector3(effectRadius * 2, effectRadius * 2, 0.1f);
+        areaCircle.GetComponent<Renderer>().material.color = new Color(0.5f, 0f, 0.5f, 0.3f); // 紫色
 
         Debug.Log($"graveの周りに半径{effectRadius}のPoisonEffectAreaを作成しました");
     }
