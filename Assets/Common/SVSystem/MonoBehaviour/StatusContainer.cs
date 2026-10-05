@@ -13,6 +13,16 @@ public class StatusContainer : MonoBehaviour
     private void Awake()
     {
         statusVector = new StatusVector(statusMatrix);
+        CustomToken LimitHPToken = new CustomToken((StatusVector target) =>
+        {
+            float maxHP = statusMatrix.Get(StatusCategory.HP, StatusMethod.Base);
+            float currentHP = target.Calculate(StatusCategory.HP);
+            if (currentHP > maxHP)
+            {
+                target.Set(StatusCategory.HP, StatusMethod.Base, maxHP);
+            }
+        });
+        eternalTokens.Add(LimitHPToken);
     }
 
     private void Update()

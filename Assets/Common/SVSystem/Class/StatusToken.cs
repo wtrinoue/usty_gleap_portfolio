@@ -20,24 +20,20 @@ public abstract class StatusToken
     abstract public void Calculate(in StatusVector target, StatusVector modified);
 }
 
-// 数値を指定し、targetのStatusのパラメータに加算する特殊なToken
-public class CustomAddToken : StatusToken
+// ステータスに対する自由な変更をラムダ式で登録する。
+public class CustomToken : StatusToken
 {
-    private StatusCategory category = StatusCategory.HP;
-    private StatusMethod method = StatusMethod.Base;
-    private float value = 0f;
+    private new readonly Action<StatusVector> action;
 
     public override void ExtractStatus(in StatusVector s) { }
 
-    public CustomAddToken(StatusCategory c, StatusMethod m, float v)
+    public CustomToken(Action<StatusVector> action)
     {
-        category = c;
-        method = m;
-        value = v;
+        this.action = action;
     }
     public override void Calculate(in StatusVector target, StatusVector modified)
     {
-        target.Add(category, method, value);
+        action(target);
     }
 }
 
