@@ -15,14 +15,13 @@ public class StatusContainer : MonoBehaviour
         statusVector = new StatusVector(statusMatrix);
         LimitHPToken lht = new();
         lht.ExtractStatus(statusVector);
-        eternalTokens.Add(lht);
+        ApplyEternalToken(lht);
     }
 
     private void Update()
     {
         modifierContainer.Update(Time.deltaTime);
         modifierContainer.ApplyEffect(statusVector);
-        ExecuteEternalTokens();
     }
 
     public StatusVector GetStatus()
@@ -53,14 +52,18 @@ public class StatusContainer : MonoBehaviour
     public void ApplyEternalToken(StatusToken token)
     {
         eternalTokens.Add(token);
+        RefreshEternalTokens();
     }
 
-    public void ExecuteEternalTokens()
+    public void RefreshEternalTokens()
     {
-        foreach (StatusToken token in eternalTokens)
+        statusVector.SetDeltaAction(() =>
         {
-            token.Execute(statusVector, GetStatus());
-        }
+            foreach (StatusToken token in eternalTokens)
+            {
+                token.Execute(statusVector, GetStatus());
+            }
+        });
     }
 }
 
