@@ -7,6 +7,7 @@ using SM = StatusMethod;
 public class StatusVector
 {
     private readonly float[,] values; // readonlyは差し替えは防げるが、中身の変更は防げない。
+    private Action action = () => { };
 
     // 空初期化
     public StatusVector()
@@ -68,6 +69,12 @@ public class StatusVector
     public void Set(StatusCategory c, StatusMethod m, float v)
     {
         values[(int)c, (int)m] = v;
+        action?.Invoke();
+    }
+
+    public void SetDeltaAction(Action a)
+    {
+        action = a;
     }
 
     public float Calculate(StatusCategory category)
@@ -81,7 +88,8 @@ public class StatusVector
 
     public void Add(StatusCategory c, StatusMethod m, float v)
     {
-        values[(int)c, (int)m] += v;
+        float v1 = Get(c, m);
+        Set(c, m, v1 + v);
     }
 
     // ✔ StatusVector同士の合成
