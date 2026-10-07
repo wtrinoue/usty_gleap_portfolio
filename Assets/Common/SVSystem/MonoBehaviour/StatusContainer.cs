@@ -6,6 +6,7 @@ public class StatusContainer : MonoBehaviour
     [Header("StatusMatrix (ステータスの初期値)")]
     public StatusMatrix statusMatrix;
     public StatusVector statusVector { get; private set; }
+    private StatusVector modifiedStatusVector;
 
     public ModifierContainer modifierContainer { get; } = new ModifierContainer();
     public List<StatusToken> eternalTokens = new();
@@ -13,6 +14,7 @@ public class StatusContainer : MonoBehaviour
     private void Awake()
     {
         statusVector = new StatusVector(statusMatrix);
+        modifiedStatusVector = new StatusVector();
         LimitHPToken lht = new();
         lht.ExtractStatus(statusVector);
         ApplyEternalToken(lht);
@@ -26,7 +28,8 @@ public class StatusContainer : MonoBehaviour
 
     public StatusVector GetStatus()
     {
-        return statusVector.Offset(modifierContainer.CalculateBuff());
+        modifiedStatusVector.Combine(statusVector, modifierContainer.CalculateBuff());
+        return modifiedStatusVector;
     }
 
     public void AddModifier(Modifier modifier)

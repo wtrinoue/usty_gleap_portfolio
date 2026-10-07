@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using UnityEngine;
 using SC = StatusCategory;
 using SM = StatusMethod;
 
@@ -12,6 +13,7 @@ public class StatusVector
     // 空初期化
     public StatusVector()
     {
+        Debug.Log("new StatusVector()");
         values = new float[
             (int)StatusCategory.Count,
             (int)StatusMethod.Count
@@ -23,6 +25,7 @@ public class StatusVector
     // ScriptableObject初期化
     public StatusVector(StatusMatrix matrix)
     {
+        Debug.Log("new StatusVector(StatusMatrix matrix)");
         values = new float[
             (int)StatusCategory.Count,
             (int)StatusMethod.Count
@@ -33,13 +36,12 @@ public class StatusVector
             values[c, (int)StatusMethod.Base] =
                 matrix.Get((StatusCategory)c, StatusMethod.Base);
         }
-
-        // ShowStatus();
     }
 
     // コピーコンストラクター
     public StatusVector(StatusVector other)
     {
+        Debug.Log("new StatusVector(StatusVector other)");
         values = new float[
             (int)StatusCategory.Count,
             (int)StatusMethod.Count
@@ -118,49 +120,27 @@ public class StatusVector
         });
     }
 
-
-    // StatusVectorの一時的な合成のためのメソッド。バフシステムに用いる。
-    public StatusVector Offset(StatusVector vector)
+    public void Combine(in StatusVector lhs, in StatusVector rhs)
     {
-        var result = new StatusVector(this);
-        result.Merge(vector);
-        result.Validate();
-        return result;
+        for (int c = 0; c < (int)StatusCategory.Count; c++)
+        {
+            for (int m = 0; m < (int)StatusMethod.Count; m++)
+            {
+                values[c, m] = lhs[c, m] + rhs[c, m];
+            }
+        }
     }
 
-    public float this[StatusCategory c, StatusMethod m]
+    public float this[int c, int m]
     {
-        get => values[(int)c, (int)m];
-        set => values[(int)c, (int)m] = value;
+        get => values[c, m];
+        set => values[c, m] = value;
     }
 
     // ステータスについて、バリデーションを設定する。※これはStatusTokenで使用する際に用いる。
     public void Validate()
     {
         StatusValidation.Validate(this);
-    }
-
-    public void ShowStatus()
-    {
-        string logMessage = "=== ステータス行列 ===\n";
-
-        for (int c = 0; c < (int)StatusCategory.Count; c++)
-        {
-            // 行の開始
-            logMessage += $"Category {c}: [ ";
-
-            for (int m = 0; m < (int)StatusMethod.Count; m++)
-            {
-                // 値を追加（見やすくするためにタブ区切り）
-                logMessage += $"{values[c, m]}\t";
-            }
-
-            // 行の終わり
-            logMessage += "]\n";
-        }
-
-        // 最後にまとめて出力（1つのログとして表示されます）
-        UnityEngine.Debug.Log(logMessage);
     }
 }
 

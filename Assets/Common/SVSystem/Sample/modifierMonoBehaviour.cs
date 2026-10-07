@@ -12,6 +12,11 @@ public class modifierMonoBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Move();
+    }
+
+    private void Move()
+    {
         Vector2 currentPosition = transform.position;
         currentPosition.x -= 0.02f;
         transform.position = currentPosition;
