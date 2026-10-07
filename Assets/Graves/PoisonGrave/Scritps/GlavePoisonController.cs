@@ -9,6 +9,10 @@ public class gravePoisonController : MonoBehaviour
 
     private GameObject effectArea;
 
+    void Reset()
+    {
+    }
+
     void Start()
     {
         CreateEffectArea();
@@ -43,7 +47,7 @@ public class gravePoisonController : MonoBehaviour
         // エフェクトエリアにオブジェクトを設置
         areaCircle.transform.localPosition = Vector3.zero;
         areaCircle.transform.localScale = new Vector3(effectRadius * 2, effectRadius * 2, 0.1f);
-        areaCircle.GetComponent<Renderer>().material.color = new Color(0.5f, 0f, 0.5f, 0.3f); // 紫色
+        areaCircle.GetComponent<SpriteRenderer>().color = new Color(0.5f, 0f, 0.5f, 0.3f); // 紫色
 
         Debug.Log($"graveの周りに半径{effectRadius}のPoisonEffectAreaを作成しました");
     }

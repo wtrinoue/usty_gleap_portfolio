@@ -206,6 +206,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PoisonGrave
       objectReference: {fileID: 0}
+    - target: {fileID: 5812307986084360992, guid: 730e02243077ead4081c5e195b435554, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6750278133461265563, guid: 730e02243077ead4081c5e195b435554, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.358401
