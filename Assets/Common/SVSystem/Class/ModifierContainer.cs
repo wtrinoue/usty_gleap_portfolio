@@ -5,7 +5,7 @@ public class ModifierContainer
 {
     private readonly Dictionary<ModifierKey, Modifier> buffs = new();
     private readonly Dictionary<ModifierKey, Modifier> effects = new();
-    private readonly StatusVector buffResult = new StatusVector();
+    private StatusVector buffResult = new StatusVector();
 
     public IReadOnlyDictionary<ModifierKey, Modifier> Buffs => buffs;
     public IReadOnlyDictionary<ModifierKey, Modifier> Effects => effects;
@@ -73,7 +73,7 @@ public class ModifierContainer
     }
 
     // Buffを計算して返すところ（Buffは一時的なものなのでbuffResultにまとめている。インターバルのリセットも担う。）
-    public StatusVector CalculateBuff()
+    public ref StatusVector CalculateBuff()
     {
         buffResult.InitializeDefaults();
 
@@ -86,7 +86,7 @@ public class ModifierContainer
             modifier.ResetInterval();
         }
 
-        return buffResult;
+        return ref buffResult;
     }
 
     // EffectをStatusに適応するところ（Effectは永続効果なのでStatusを直接変更する。インターバルのリセットも担う。）
