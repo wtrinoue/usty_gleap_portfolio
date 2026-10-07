@@ -29,6 +29,7 @@ public class StatusContainer : MonoBehaviour
     public StatusVector GetStatus()
     {
         modifiedStatusVector.Combine(statusVector, modifierContainer.CalculateBuff());
+        modifiedStatusVector.Validate();
         return modifiedStatusVector;
     }
 
