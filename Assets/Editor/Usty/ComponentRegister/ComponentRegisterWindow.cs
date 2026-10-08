@@ -78,7 +78,7 @@ public class ComponentRegisterWindow : EditorWindow
 
         EditorGUILayout.Space(8);
         EditorGUILayout.HelpBox(
-            "スクリプトを Inspector にドラッグすると、選択中の GameObject または Prefab に追加できます。",
+            "スクリプトを Inspector にドラッグすると、選択中の GameObject または Prefab にアタッチできます。",
             MessageType.Info);
 
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);

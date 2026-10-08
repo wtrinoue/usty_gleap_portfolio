@@ -1,21 +1,24 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(CapsuleCollider2D))]
 public class GraveItemBehaviour : MonoBehaviour
 {
     [Header("Grave Setting")]
     [SerializeField] private GameObject[] graves;
     private GraveHolder graveHolder;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
 
+    void Reset()
+    {
+        // CapsuleCollider2Dを取得してisTriggerをtrueにする
+        CapsuleCollider2D capsuleCollider = GetComponent<CapsuleCollider2D>();
+
+        if (capsuleCollider != null)
+        {
+            capsuleCollider.isTrigger = true;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -24,7 +27,7 @@ public class GraveItemBehaviour : MonoBehaviour
 
         // PlayerのGraveHolderにgraveを入れる
         graveHolder = other.gameObject.GetComponent<GraveHolder>();
-        foreach(GameObject grave in graves)
+        foreach (GameObject grave in graves)
         {
             graveHolder.AddGrave(grave);
         }

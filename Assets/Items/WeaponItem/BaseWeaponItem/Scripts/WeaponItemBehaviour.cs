@@ -1,20 +1,22 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(CapsuleCollider2D))]
 public class WeaponItemBehaviour : MonoBehaviour
 {
     [Header("Weapon Core Setting")]
     [SerializeField] private GameObject[] weaponCores;
     private WeaponCoreHolder weaponCoreHolder;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    void Reset()
     {
-        
+        // CapsuleCollider2Dを取得してisTriggerをtrueにする
+        CapsuleCollider2D capsuleCollider = GetComponent<CapsuleCollider2D>();
+
+        if (capsuleCollider != null)
+        {
+            capsuleCollider.isTrigger = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -24,7 +26,7 @@ public class WeaponItemBehaviour : MonoBehaviour
 
         // PlayerのGraveHolderにgraveを入れる
         weaponCoreHolder = other.gameObject.GetComponent<WeaponCoreHolder>();
-        foreach(GameObject weaponCore in weaponCores)
+        foreach (GameObject weaponCore in weaponCores)
         {
             weaponCoreHolder.AddWeaponCore(weaponCore);
         }
