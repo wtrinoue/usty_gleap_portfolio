@@ -29,4 +29,9 @@ public class EffectAnimation : MonoBehaviour
     {
         animator.SetTrigger("HealTrigger");
     }
+
+    public void Power()
+    {
+        animator.SetTrigger("PowerTrigger");
+    }
 }
