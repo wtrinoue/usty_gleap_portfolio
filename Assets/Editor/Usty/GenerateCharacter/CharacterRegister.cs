@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "CharacterRegister", menuName = "ScriptableObjects/CharacterRegister")]
+[CreateAssetMenu(fileName = "CharacterRegister", menuName = "Usty/CharacterRegister")]
 public class CharacterRegister : ScriptableObject
 {
     public List<UstyObjectData> objects;
