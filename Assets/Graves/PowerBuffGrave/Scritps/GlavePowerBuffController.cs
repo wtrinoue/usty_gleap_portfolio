@@ -6,6 +6,7 @@ public class gravePowerBuffController : MonoBehaviour
     [Header("Buff Area Settings")]
     [SerializeField] private float buffRadius = 2f;
     [SerializeField] private ModifierDefinition modifierDefinition;
+    [SerializeField] private GameObject areaCircle;
 
     private GameObject buffArea;
 
@@ -39,6 +40,10 @@ public class gravePowerBuffController : MonoBehaviour
                 field.SetValue(trigger, modifierDefinition);
             }
         }
+        // エフェクトエリアにオブジェクトを設置
+        areaCircle.transform.localPosition = Vector3.zero;
+        areaCircle.transform.localScale = new Vector3(buffRadius * 2, buffRadius * 2, 0.1f);
+        areaCircle.GetComponent<SpriteRenderer>().color = new Color(1f, 0.5f, 0f, 0.1f); // オレンジ色（半透明）
 
         Debug.Log($"graveの周りに半径{buffRadius}のPowerBuffAreaを作成しました");
     }
