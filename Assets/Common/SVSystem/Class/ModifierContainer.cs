@@ -73,7 +73,7 @@ public class ModifierContainer
     }
 
     // Buffを計算して返すところ（Buffは一時的なものなのでbuffResultにまとめている。インターバルのリセットも担う。）
-    public ref StatusVector CalculateBuff()
+    public ref StatusVector BuffedStatusVector()
     {
         buffResult.InitializeDefaults();
 

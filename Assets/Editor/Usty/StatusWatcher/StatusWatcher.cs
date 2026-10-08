@@ -53,7 +53,7 @@ public class StatusWatcher : EditorWindow
         EditorGUILayout.LabelField("BASE", new GUIStyle(EditorStyles.label) { normal = { textColor = Color.red } });
         DrawStatusMatrix(container.statusVector);
         EditorGUILayout.LabelField("BUFF", new GUIStyle(EditorStyles.label) { normal = { textColor = Color.green } });
-        DrawStatusMatrix(container.modifierContainer.CalculateBuff());
+        DrawStatusMatrix(container.modifierContainer.BuffedStatusVector());
         EditorGUILayout.LabelField("MODIFIED", new GUIStyle(EditorStyles.label) { normal = { textColor = Color.blue } });
         DrawStatusMatrix(container.GetStatus());
 
