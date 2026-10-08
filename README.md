@@ -28,7 +28,9 @@
 # 🚂 開発関連リンク
 システム関連（github）: https://github.com/wtrinoue/usty_gleap/blob/main/docs/overall.md  
 開発計画スライド（Canva) : https://canva.link/et882xr8diyfgrq  
-素材役割分担ホワイトボード（Canva）: https://canva.link/fbwm8e977e32r6q
+素材役割分担ホワイトボード（Canva）: https://canva.link/fbwm8e977e32r6q  
+タスク割り当て（スプレッドシート）：https://docs.google.com/spreadsheets/d/1kUqaWOFwHwYKSsgVabqdTfXWVFEDp2mkU_vY3LBjISo/edit?gid=0#gid=0
+
 
 # 🎨 使用アセットについて
 スライム：https://assetstore.unity.com/packages/2d/characters/slime-enemy-pixel-art-228568  
