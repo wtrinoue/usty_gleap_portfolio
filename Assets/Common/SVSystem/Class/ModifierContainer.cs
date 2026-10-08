@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ModifierContainer
 {
@@ -17,19 +18,21 @@ public class ModifierContainer
         if (modifier.IsBuff)
         {
             // もし同じkeyを持っていたら除外（Buffは排他的である）
-            if (buffs.ContainsKey(key))
-                return;
-
-            buffs.Add(key, modifier);
+            AddModifierDict(buffs, key, modifier);
         }
         else if (modifier.IsEffect)
         {
             // もし同じkeyを持っていたら除外（Effectは排他的である）
-            if (effects.ContainsKey(key))
-                return;
-
-            effects.Add(key, modifier);
+            AddModifierDict(effects, key, modifier);
         }
+    }
+
+    private void AddModifierDict(in Dictionary<ModifierKey, Modifier> dict, ModifierKey key, Modifier modifier)
+    {
+        if (dict.ContainsKey(key))
+            return;
+
+        dict.Add(key, modifier);
     }
 
     public void Remove(Modifier modifier)

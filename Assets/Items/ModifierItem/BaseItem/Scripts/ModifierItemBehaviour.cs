@@ -1,9 +1,8 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-public class ModifierItem : MonoBehaviour
+public class ModifierItemBehaviour : MonoBehaviour
 {
     [Header("Effect Setting")]
     [SerializeField] private ModifierDefinition modifierDefinition;
