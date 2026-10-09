@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6165364559014710365}
   - component: {fileID: 2770732119119526987}
+  - component: {fileID: 6475746455794526652}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -46,3 +47,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
   playerGravesData: {fileID: 11400000, guid: a30418bfc19dde64f9894322194fcecb, type: 2}
   playerWeaponCoresData: {fileID: 11400000, guid: 692bc0c56a35e34418d31f288a8a8b33, type: 2}
+--- !u!114 &6475746455794526652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591265080412886613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011afc0785335a1458ad313b53f13719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusContainer
+  statusMatrix: {fileID: 11400000, guid: a8d196aca4fe9934090db60a3eb709a2, type: 2}
