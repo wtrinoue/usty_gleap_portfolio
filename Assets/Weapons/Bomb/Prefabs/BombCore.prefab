@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4492514913397133982}
   - component: {fileID: 2866115105357885028}
+  - component: {fileID: -7815130662429633509}
   m_Layer: 0
   m_Name: BombCore
   m_TagString: Untagged
@@ -47,3 +48,17 @@ MonoBehaviour:
   bombCenterPrefab: {fileID: 2702547964573713928, guid: ae0dd64cceba304428ae337d9b3c11d1, type: 3}
   launchForce: 5
   spawnDistance: 1
+  statusContainer: {fileID: -7815130662429633509}
+--- !u!114 &-7815130662429633509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3823385860320335763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011afc0785335a1458ad313b53f13719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusContainer
+  statusMatrix: {fileID: 11400000, guid: ed8889f26a982db4bb824aa1782ca0ca, type: 2}

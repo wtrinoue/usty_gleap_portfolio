@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BombCoreBehaviour : MonoBehaviour
+public class BombCoreBehaviour : MonoBehaviour, WeaponCoreInterface
 {
     [Header("Bomb Settings")]
     [SerializeField] private GameObject bombCenterPrefab;
@@ -8,8 +8,21 @@ public class BombCoreBehaviour : MonoBehaviour
 
     [Header("Spawn Settings")]
     [SerializeField] private float spawnDistance = 1.0f;
+    public StatusContainer statusContainer;
+    private PackToken packToken;
 
-    private void Start()
+
+    public void Init()
+    {
+        packToken = new();
+        packToken.AddStatusToken(new DamageToken());
+        packToken.ExtractStatus(statusContainer.GetStatus());
+    }
+    public void ExtractPlayerStatus(in StatusVector s)
+    {
+        packToken.ExtractStatus(s);
+    }
+    public void Fire()
     {
         SpawnAndLaunch();
     }
@@ -31,6 +44,8 @@ public class BombCoreBehaviour : MonoBehaviour
             spawnPosition,
             transform.rotation
         );
+
+        bomb.GetComponent<BombCenterBehaviour>().SetToken(packToken);
 
         Rigidbody2D rb = bomb.GetComponent<Rigidbody2D>();
 

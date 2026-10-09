@@ -8,9 +8,11 @@ public class BombCenterBehaviour : MonoBehaviour
     [SerializeField] private int spawnCount = 8;           // 個数
     [SerializeField] private float delay = 2.0f;           // 爆発までの秒数
     [SerializeField] private float spawnRadius = 0.5f;     // 生成半径（中心から少し離す用）
+    private StatusToken statusToken;
 
-    private void Start()
+    public void SetToken(StatusToken st)
     {
+        statusToken = st;
         Invoke(nameof(Explode), delay);
 
         // 自分の方向を整える（丸い爆弾のアニメーションのため）
@@ -40,7 +42,8 @@ public class BombCenterBehaviour : MonoBehaviour
             // 外向きに回転
             Quaternion rotation = Quaternion.LookRotation(Vector3.forward, dir);
 
-            Instantiate(projectilePrefab, spawnPos, rotation);
+            GameObject bombFragment = Instantiate(projectilePrefab, spawnPos, rotation);
+            bombFragment.GetComponent<BulletForWeaponBehaviour>().SetToken(statusToken);
         }
 
         // 爆弾のアニメーションを再生
