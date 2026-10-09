@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using NUnit.Framework.Internal.Filters;
 
@@ -17,7 +18,7 @@ public abstract class StatusToken
         modified.Validate();
         Calculate(target, modified);
     }
-    abstract public void Calculate(in StatusVector target, StatusVector modified);
+    public abstract void Calculate(in StatusVector target, StatusVector modified);
 }
 
 // ステータスに対する自由な変更をラムダ式で登録する。
@@ -37,12 +38,48 @@ public class CustomToken : StatusToken
     }
 }
 
+// ステータスを複数入れるためのToken
+public class PackToken : StatusToken
+{
+    List<StatusToken> statusTokens;
+
+    public void AddStatusToken(StatusToken st)
+    {
+        statusTokens.Add(st);
+    }
+
+    public List<StatusToken> GetTokenList()
+    {
+        return statusTokens;
+    }
+
+    public void SetTokenList(List<StatusToken> statusTokens)
+    {
+        this.statusTokens = statusTokens;
+    }
+
+    public override void ExtractStatus(in StatusVector s)
+    {
+        foreach (StatusToken st in statusTokens)
+        {
+            st.ExtractStatus(s);
+        }
+    }
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        foreach (StatusToken st in statusTokens)
+        {
+            st.Calculate(target, modified);
+        }
+    }
+}
+
 public class DamageToken : StatusToken
 {
     float sourceAttack = 0f;
     public override void ExtractStatus(in StatusVector s)
     {
-        sourceAttack = s.Calculate(StatusCategory.Attack);
+        sourceAttack += s.Calculate(StatusCategory.Attack);
     }
     public override void Calculate(in StatusVector target, StatusVector modified)
     {
