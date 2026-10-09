@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5321223416219411038}
   - component: {fileID: 6093996352341949534}
+  - component: {fileID: 637167100172231199}
   m_Layer: 0
   m_Name: BladeCore
   m_TagString: Untagged
@@ -49,3 +50,17 @@ MonoBehaviour:
   rotateSpeed: -270
   rotateRange: 90
   orbitChildPrefab: {fileID: 2659088587549610347, guid: bbe8ab931938b4a41a764cd7e0c8aa98, type: 3}
+  statusContainer: {fileID: 637167100172231199}
+--- !u!114 &637167100172231199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4767183409975778884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011afc0785335a1458ad313b53f13719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusContainer
+  statusMatrix: {fileID: 11400000, guid: 06e02c5662a4c7a4aadb60c03c96748b, type: 2}
