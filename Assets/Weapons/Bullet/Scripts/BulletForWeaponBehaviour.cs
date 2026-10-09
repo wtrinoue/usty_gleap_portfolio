@@ -4,15 +4,15 @@ public class BulletForWeaponBehaviour : MonoBehaviour
 {
     [SerializeField] private float lifeTimeSeconds = 5f; // 生存時間（秒）
 
-    private StatusContainer statusContainer;
+    [SerializeField] private float speed = 5f;
     private Rigidbody2D rb;
     private float lifeTimer;
     private bool isDestroyed;
     private Vector2 moveDirection;
+    private StatusToken statusToken;
 
     void Awake()
     {
-        statusContainer = GetComponent<StatusContainer>();
         rb = GetComponent<Rigidbody2D>();
         moveDirection = transform.right.normalized;
 
@@ -25,7 +25,6 @@ public class BulletForWeaponBehaviour : MonoBehaviour
         if (isDestroyed) return;
 
         // ①毎フレームごとにTransform.rotationの方向に進む
-        float speed = statusContainer.GetStatus().Calculate(StatusCategory.Speed);
         rb.linearVelocity = moveDirection * speed;
 
     }
@@ -38,11 +37,13 @@ public class BulletForWeaponBehaviour : MonoBehaviour
         if (collision.CompareTag("Enemy") &&
             collision.TryGetComponent<StatusContainer>(out var hasSC))
         {
-            // DamageTokenの発行
-            DamageToken dt = new();
-            dt.ExtractStatus(statusContainer.GetStatus());
-            hasSC.ApplyOneTimeToken(dt);
+            hasSC.ApplyOneTimeToken(statusToken);
         }
+    }
+
+    public void SetToken(StatusToken st)
+    {
+        statusToken = st;
     }
 
     private void DestroyBullet()

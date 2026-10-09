@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4208992438174817476}
   - component: {fileID: 2039389908625358203}
+  - component: {fileID: -1928520345139508529}
   m_Layer: 0
   m_Name: BulletCore
   m_TagString: Untagged
@@ -47,6 +48,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletCoreBehaviour
   bulletPrefab: {fileID: 906134888238357954, guid: b200a31475c02d242ba166108221059b, type: 3}
   spawnDistance: 2
+  statusContainer: {fileID: -1928520345139508529}
+--- !u!114 &-1928520345139508529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889668759395069669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011afc0785335a1458ad313b53f13719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusContainer
+  statusMatrix: {fileID: 11400000, guid: de33990f81217504bb54f86dcc290216, type: 2}
 --- !u!1 &8020608165330075014
 GameObject:
   m_ObjectHideFlags: 0

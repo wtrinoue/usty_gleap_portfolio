@@ -41,7 +41,7 @@ public class CustomToken : StatusToken
 // ステータスを複数入れるためのToken
 public class PackToken : StatusToken
 {
-    List<StatusToken> statusTokens;
+    List<StatusToken> statusTokens = new();
 
     public void AddStatusToken(StatusToken st)
     {

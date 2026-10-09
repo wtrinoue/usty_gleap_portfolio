@@ -1,12 +1,24 @@
 using UnityEngine;
 
-public class BulletCoreBehaviour : MonoBehaviour
+public class BulletCoreBehaviour : MonoBehaviour, WeaponCoreInterface
 {
     [Header("Spawn Settings")]
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float spawnDistance = 0.5f;
+    public StatusContainer statusContainer;
+    private PackToken packToken;
 
-    void Start()
+    public void Init()
+    {
+        packToken = new();
+        packToken.AddStatusToken(new DamageToken());
+        packToken.ExtractStatus(statusContainer.GetStatus());
+    }
+    public void ExtractPlayerStatus(in StatusVector s)
+    {
+        packToken.ExtractStatus(s);
+    }
+    public void Fire()
     {
         SpawnBullet();
         Invoke(nameof(DestroyMe), 0.5f);
@@ -43,6 +55,8 @@ public class BulletCoreBehaviour : MonoBehaviour
         bullet.transform.up = outwardDir;
         // 3Dなら下の行を使う
         // bullet.transform.forward = outwardDir;
+
+        bullet.GetComponent<BulletForWeaponBehaviour>().SetToken(packToken);
     }
 
     private void DestroyMe()
