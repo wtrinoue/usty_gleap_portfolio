@@ -45,7 +45,10 @@ public class BombCoreBehaviour : MonoBehaviour, WeaponCoreInterface
             transform.rotation
         );
 
-        bomb.GetComponent<BombCenterBehaviour>().SetToken(packToken);
+        WeaponInterface wi = bomb.GetComponent<WeaponInterface>();
+        wi.Init();
+        wi.InsertToken(packToken);
+        wi.Fire();
 
         Rigidbody2D rb = bomb.GetComponent<Rigidbody2D>();
 

@@ -56,7 +56,10 @@ public class BulletCoreBehaviour : MonoBehaviour, WeaponCoreInterface
         // 3Dなら下の行を使う
         // bullet.transform.forward = outwardDir;
 
-        bullet.GetComponent<BulletForWeaponBehaviour>().SetToken(packToken);
+        WeaponInterface wi = bullet.GetComponent<WeaponInterface>();
+        wi.Init();
+        wi.InsertToken(packToken);
+        wi.Fire();
     }
 
     private void DestroyMe()

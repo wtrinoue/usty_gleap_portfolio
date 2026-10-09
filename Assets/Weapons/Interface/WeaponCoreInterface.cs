@@ -16,21 +16,14 @@ public class UnknownBehaviour : MonoBehaviour, WeaponCoreInterface
 
     public void Init()
     {
-        centerObject = gameObject;
-        if (centerObject != null)
-        {
-            transform.position = centerObject.transform.position;
-            transform.SetParent(centerObject.transform);
-        }
-
         packToken = new();
         packToken.AddStatusToken(new DamageToken()); // ここでTokenをいくらでも追加できる。
-        packToken.ExtractStatus(statusContainer.GetStatus());
+        packToken.ExtractStatus(statusContainer.GetStatus());// WeaponCore自体のStatusをここで吸収させる。
     }
 
     public void ExtractPlayerStatus(in StatusVector s)
     {
-        packToken.ExtractStatus(s);
+        packToken.ExtractStatus(s);// Player側で発火してもらうようにする。
     }
 
     public void Fire()

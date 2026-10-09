@@ -78,7 +78,10 @@ public class BladeCenterBehaviour : MonoBehaviour, WeaponCoreInterface
 
             child.transform.localPosition = localPos;
 
-            child.GetComponent<BladeBehaviour>().SetToken(packToken);
+            WeaponInterface wi = child.GetComponent<WeaponInterface>();
+            wi.Init();
+            wi.InsertToken(packToken);
+            wi.Fire();
         }
     }
 }

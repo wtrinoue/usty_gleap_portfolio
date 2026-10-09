@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BulletForWeaponBehaviour : MonoBehaviour
+public class BulletForWeaponBehaviour : MonoBehaviour, WeaponInterface
 {
     [SerializeField] private float lifeTimeSeconds = 5f; // 生存時間（秒）
 
@@ -28,6 +28,13 @@ public class BulletForWeaponBehaviour : MonoBehaviour
         rb.linearVelocity = moveDirection * speed;
 
     }
+
+    public void Init() { }
+    public void InsertToken(StatusToken token)
+    {
+        statusToken = token;
+    }
+    public void Fire() { }
 
     void OnTriggerEnter2D(Collider2D collision)
     {

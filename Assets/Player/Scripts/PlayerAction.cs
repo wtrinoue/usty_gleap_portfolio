@@ -104,6 +104,8 @@ public class PlayerAction : MonoBehaviour
         GameObject clone = Instantiate(weaponCoreList[currentWeaponCoreIndex], transform.position, Quaternion.identity);
         clone.transform.SetParent(transform);
         clone.transform.up = direction; // 2Dでは上方向をベクトルに合わせる
+
+        // WeaponCoreのセットアップを生成側でする。
         WeaponCoreInterface wci = clone.GetComponent<WeaponCoreInterface>();
         wci.Init();
         wci.ExtractPlayerStatus(statusContainer.GetStatus());
