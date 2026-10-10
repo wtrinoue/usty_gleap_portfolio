@@ -6,7 +6,7 @@ public class AreaEffectTrigger : MonoBehaviour
     [SerializeField] private ModifierDefinition modifierDefinition;
     [SerializeField] private string targetTag = "Enemy";
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         // タグが一致しない場合は処理をスキップ
         if (!other.CompareTag(targetTag)) return;

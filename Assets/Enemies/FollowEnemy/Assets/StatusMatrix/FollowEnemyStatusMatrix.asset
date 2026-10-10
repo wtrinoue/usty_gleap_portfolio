@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FollowEnemyStatusMatrix
   m_EditorClassIdentifier: Assembly-CSharp::StatusMatrix
   values:
-  - 8
+  - 5
   - 0
   - 0
   - 2
@@ -25,6 +25,6 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  - 1
+  - 0
   - 0
   - 0
