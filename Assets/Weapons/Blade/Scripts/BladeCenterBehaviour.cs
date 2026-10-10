@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BladeCenterBehaviour : MonoBehaviour
+public class BladeCenterBehaviour : MonoBehaviour, WeaponCoreInterface
 {
     [Header("Orbit Settings")]
     [SerializeField] float radius = 2.5f;
@@ -12,10 +12,12 @@ public class BladeCenterBehaviour : MonoBehaviour
 
     [Header("Spawn")]
     [SerializeField] GameObject orbitChildPrefab;
+    public StatusContainer statusContainer;
     private GameObject centerObject;
     private float rotatedAmount = 0f;
+    private PackToken packToken;
 
-    void Start()
+    public void Init()
     {
         centerObject = gameObject;
         if (centerObject != null)
@@ -23,6 +25,17 @@ public class BladeCenterBehaviour : MonoBehaviour
             transform.position = centerObject.transform.position;
             transform.SetParent(centerObject.transform);
         }
+
+        packToken = new();
+        packToken.AddStatusToken(new DamageToken());
+        packToken.ExtractStatus(statusContainer.GetStatus());
+    }
+    public void ExtractPlayerStatus(in StatusVector s)
+    {
+        packToken.ExtractStatus(s);
+    }
+    public void Fire()
+    {
         Spawn();
     }
 
@@ -64,6 +77,11 @@ public class BladeCenterBehaviour : MonoBehaviour
             );
 
             child.transform.localPosition = localPos;
+
+            WeaponInterface wi = child.GetComponent<WeaponInterface>();
+            wi.Init();
+            wi.InsertToken(packToken);
+            wi.Fire();
         }
     }
 }

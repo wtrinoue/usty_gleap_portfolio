@@ -1,21 +1,25 @@
 using System;
 using UnityEngine;
 
-public class BombCenterBehaviour : MonoBehaviour
+public class BombCenterBehaviour : MonoBehaviour, WeaponInterface
 {
     [Header("Explosion Settings")]
     [SerializeField] private GameObject projectilePrefab; // 発射するPrefab
     [SerializeField] private int spawnCount = 8;           // 個数
     [SerializeField] private float delay = 2.0f;           // 爆発までの秒数
     [SerializeField] private float spawnRadius = 0.5f;     // 生成半径（中心から少し離す用）
+    private StatusToken statusToken;
 
-    private void Start()
+    public void Init() { }
+    public void InsertToken(StatusToken token)
     {
+        statusToken = token;
         Invoke(nameof(Explode), delay);
 
         // 自分の方向を整える（丸い爆弾のアニメーションのため）
         transform.eulerAngles = new Vector3(0, 0, 0);
     }
+    public void Fire() { }
 
     private void Explode()
     {
@@ -40,7 +44,11 @@ public class BombCenterBehaviour : MonoBehaviour
             // 外向きに回転
             Quaternion rotation = Quaternion.LookRotation(Vector3.forward, dir);
 
-            Instantiate(projectilePrefab, spawnPos, rotation);
+            GameObject bombFragment = Instantiate(projectilePrefab, spawnPos, rotation);
+            WeaponInterface wi = bombFragment.GetComponent<WeaponInterface>();
+            wi.Init();
+            wi.InsertToken(statusToken);
+            wi.Fire();
         }
 
         // 爆弾のアニメーションを再生

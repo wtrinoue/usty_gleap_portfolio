@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using NUnit.Framework.Internal.Filters;
 
@@ -17,27 +18,59 @@ public abstract class StatusToken
         modified.Validate();
         Calculate(target, modified);
     }
-    abstract public void Calculate(in StatusVector target, StatusVector modified);
+    public abstract void Calculate(in StatusVector target, StatusVector modified);
 }
 
-// 数値を指定し、targetのStatusのパラメータに加算する特殊なToken
-public class CustomAddToken : StatusToken
+// ステータスに対する自由な変更をラムダ式で登録する。
+public class CustomToken : StatusToken
 {
-    private StatusCategory category = StatusCategory.HP;
-    private StatusMethod method = StatusMethod.Base;
-    private float value = 0f;
+    private new readonly Action<StatusVector> action;
 
     public override void ExtractStatus(in StatusVector s) { }
 
-    public CustomAddToken(StatusCategory c, StatusMethod m, float v)
+    public CustomToken(Action<StatusVector> action)
     {
-        category = c;
-        method = m;
-        value = v;
+        this.action = action;
     }
     public override void Calculate(in StatusVector target, StatusVector modified)
     {
-        target.Add(category, method, value);
+        action(target);
+    }
+}
+
+// ステータスを複数入れるためのToken
+public class PackToken : StatusToken
+{
+    List<StatusToken> statusTokens = new();
+
+    public void AddStatusToken(StatusToken st)
+    {
+        statusTokens.Add(st);
+    }
+
+    public List<StatusToken> GetTokenList()
+    {
+        return statusTokens;
+    }
+
+    public void SetTokenList(List<StatusToken> statusTokens)
+    {
+        this.statusTokens = statusTokens;
+    }
+
+    public override void ExtractStatus(in StatusVector s)
+    {
+        foreach (StatusToken st in statusTokens)
+        {
+            st.ExtractStatus(s);
+        }
+    }
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        foreach (StatusToken st in statusTokens)
+        {
+            st.Calculate(target, modified);
+        }
     }
 }
 
@@ -46,7 +79,7 @@ public class DamageToken : StatusToken
     float sourceAttack = 0f;
     public override void ExtractStatus(in StatusVector s)
     {
-        sourceAttack = s.Calculate(StatusCategory.Attack);
+        sourceAttack += s.Calculate(StatusCategory.Attack);
     }
     public override void Calculate(in StatusVector target, StatusVector modified)
     {
@@ -71,6 +104,25 @@ public class DeadToken : StatusToken
         if (myHP <= 0)
         {
             action.Invoke();// ここにやられた時の処理を入れておく。
+        }
+    }
+}
+
+public class LimitHPToken : StatusToken
+{
+    private float maxHP;
+
+    public override void ExtractStatus(in StatusVector s)
+    {
+        maxHP = s.Get(StatusCategory.HP, StatusMethod.Base);
+    }
+
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        float currentHP = target.Get(StatusCategory.HP, StatusMethod.Base);
+        if (currentHP > maxHP)
+        {
+            target.Set(StatusCategory.HP, StatusMethod.Base, maxHP);
         }
     }
 }

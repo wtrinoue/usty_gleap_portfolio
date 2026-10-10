@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using  UnityEngine.InputSystem;
+using UnityEngine.InputSystem;
 
 public class PlayerAction : MonoBehaviour
 {
     private WeaponCoreHolder weaponCoreHolder;
     private List<GameObject> weaponCoreList;
     private GraveHolder graveHolder;
+    private StatusContainer statusContainer;
     private List<GameObject> graves;
     private int currentWeaponCoreIndex = 0;
     private InputAction fireAction;
@@ -20,6 +21,7 @@ public class PlayerAction : MonoBehaviour
         weaponCoreHolder = gameObject.GetComponent<WeaponCoreHolder>();
         weaponCoreList = weaponCoreHolder.GetWeaponCoreList();
         graveHolder = gameObject.GetComponent<GraveHolder>();
+        statusContainer = GetComponent<StatusContainer>();
         graves = graveHolder.GetGraves();
 
         // 攻撃用 InputAction(Button)
@@ -68,7 +70,7 @@ public class PlayerAction : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!isInitialized) return;
+        if (!isInitialized) return;
         if (isDestroyed)
         {
             Debug.Log("破壊されています");
@@ -82,7 +84,7 @@ public class PlayerAction : MonoBehaviour
         }
         // 武器がなければ処理しない
         weaponCoreList ??= weaponCoreHolder.GetWeaponCoreList();
-        if(weaponCoreList.Count == 0) return;
+        if (weaponCoreList.Count == 0) return;
         Debug.Log("クリックが動作します");
         // マウス座標をスクリーン空間で取得
         Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
@@ -102,11 +104,17 @@ public class PlayerAction : MonoBehaviour
         GameObject clone = Instantiate(weaponCoreList[currentWeaponCoreIndex], transform.position, Quaternion.identity);
         clone.transform.SetParent(transform);
         clone.transform.up = direction; // 2Dでは上方向をベクトルに合わせる
+
+        // WeaponCoreのセットアップを生成側でする。
+        WeaponCoreInterface wci = clone.GetComponent<WeaponCoreInterface>();
+        wci.Init();
+        wci.ExtractPlayerStatus(statusContainer.GetStatus());
+        wci.Fire();
     }
 
     public void OnScroll(InputAction.CallbackContext context)
     {
-        if(!isInitialized) return;
+        if (!isInitialized) return;
         if (isDestroyed)
         {
             Debug.Log("破壊されています");
@@ -138,7 +146,7 @@ public class PlayerAction : MonoBehaviour
 
     public void OnSpace(InputAction.CallbackContext context)
     {
-        if(!isInitialized) return;
+        if (!isInitialized) return;
         Debug.Log($"graveHolder: {graveHolder}, graves: {graves}");
         if (isDestroyed)
         {

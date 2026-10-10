@@ -1,18 +1,26 @@
 using UnityEngine;
 
-public class BladeBehaviour : MonoBehaviour
+public class BladeBehaviour : MonoBehaviour, WeaponInterface
 {
-    [SerializeField] private StatusContainer statusContainer;
-    [SerializeField] private Knockback knockback;
+    private StatusToken statusToken;
+    private bool enableAttack = false;
+
+    public void Init() { }
+    public void InsertToken(StatusToken token)
+    {
+        statusToken = token;
+    }
+    public void Fire()
+    {
+        enableAttack = true;
+    }
     // 当たったオブジェクトを検出
     private void OnTriggerEnter2D(Collider2D other)
     {
-        knockback.DoKnockback(other.gameObject);
+        if (!enableAttack) return;
         StatusContainer otherSC = other.gameObject.GetComponent<StatusContainer>();
         if (otherSC == null) return;
-        DamageToken dt = new();
-        dt.ExtractStatus(statusContainer.GetStatus());
-        otherSC.ApplyOneTimeToken(dt);
+        otherSC.ApplyOneTimeToken(statusToken);
     }
 
 }

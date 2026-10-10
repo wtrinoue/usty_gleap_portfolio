@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ModifierContainer
 {
     private readonly Dictionary<ModifierKey, Modifier> buffs = new();
     private readonly Dictionary<ModifierKey, Modifier> effects = new();
-    private readonly StatusVector buffResult = new StatusVector();
+    private StatusVector buffResult = new StatusVector();
 
     public IReadOnlyDictionary<ModifierKey, Modifier> Buffs => buffs;
     public IReadOnlyDictionary<ModifierKey, Modifier> Effects => effects;
@@ -17,19 +18,21 @@ public class ModifierContainer
         if (modifier.IsBuff)
         {
             // もし同じkeyを持っていたら除外（Buffは排他的である）
-            if (buffs.ContainsKey(key))
-                return;
-
-            buffs.Add(key, modifier);
+            AddModifierDict(buffs, key, modifier);
         }
         else if (modifier.IsEffect)
         {
             // もし同じkeyを持っていたら除外（Effectは排他的である）
-            if (effects.ContainsKey(key))
-                return;
-
-            effects.Add(key, modifier);
+            AddModifierDict(effects, key, modifier);
         }
+    }
+
+    private void AddModifierDict(in Dictionary<ModifierKey, Modifier> dict, ModifierKey key, Modifier modifier)
+    {
+        if (dict.ContainsKey(key))
+            return;
+
+        dict.Add(key, modifier);
     }
 
     public void Remove(Modifier modifier)
@@ -73,7 +76,7 @@ public class ModifierContainer
     }
 
     // Buffを計算して返すところ（Buffは一時的なものなのでbuffResultにまとめている。インターバルのリセットも担う。）
-    public StatusVector CalculateBuff()
+    public ref StatusVector BuffedStatusVector()
     {
         buffResult.InitializeDefaults();
 
@@ -86,7 +89,7 @@ public class ModifierContainer
             modifier.ResetInterval();
         }
 
-        return buffResult;
+        return ref buffResult;
     }
 
     // EffectをStatusに適応するところ（Effectは永続効果なのでStatusを直接変更する。インターバルのリセットも担う。）

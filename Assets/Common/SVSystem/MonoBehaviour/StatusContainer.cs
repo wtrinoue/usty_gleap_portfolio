@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class StatusContainer : MonoBehaviour
 {
+
     [Header("StatusMatrix (ステータスの初期値)")]
     public StatusMatrix statusMatrix;
     public StatusVector statusVector { get; private set; }
+    private StatusVector modifiedStatusVector;
 
     public ModifierContainer modifierContainer { get; } = new ModifierContainer();
     public List<StatusToken> eternalTokens = new();
@@ -13,18 +15,23 @@ public class StatusContainer : MonoBehaviour
     private void Awake()
     {
         statusVector = new StatusVector(statusMatrix);
+        modifiedStatusVector = new StatusVector();
+        LimitHPToken lht = new();
+        lht.ExtractStatus(statusVector);
+        ApplyEternalToken(lht);
     }
 
     private void Update()
     {
         modifierContainer.Update(Time.deltaTime);
         modifierContainer.ApplyEffect(statusVector);
-        ExecuteEternalTokens();
     }
 
     public StatusVector GetStatus()
     {
-        return statusVector.Offset(modifierContainer.CalculateBuff());
+        modifiedStatusVector.Combine(statusVector, modifierContainer.BuffedStatusVector());
+        modifiedStatusVector.Validate();
+        return modifiedStatusVector;
     }
 
     public void AddModifier(Modifier modifier)
@@ -50,14 +57,18 @@ public class StatusContainer : MonoBehaviour
     public void ApplyEternalToken(StatusToken token)
     {
         eternalTokens.Add(token);
+        RefreshEternalTokens();
     }
 
-    public void ExecuteEternalTokens()
+    public void RefreshEternalTokens()
     {
-        foreach (StatusToken token in eternalTokens)
+        statusVector.SetDeltaAction(() =>
         {
-            token.Execute(statusVector, GetStatus());
-        }
+            foreach (StatusToken token in eternalTokens)
+            {
+                token.Execute(statusVector, GetStatus());
+            }
+        });
     }
 }
 
