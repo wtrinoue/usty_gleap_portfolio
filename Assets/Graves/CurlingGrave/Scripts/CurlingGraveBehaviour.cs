@@ -5,6 +5,7 @@ public class CurlingGraveBehaviour : MonoBehaviour
 {
     public StatusContainer statusContainer;
     public float targetAngle;
+    public float lifeTime = 4.0f;
     private Vector3 direction;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,7 +38,7 @@ public class CurlingGraveBehaviour : MonoBehaviour
     }
     private IEnumerator LifeCountDown()
     {
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(lifeTime);
         Destroy(gameObject);
     }
 
