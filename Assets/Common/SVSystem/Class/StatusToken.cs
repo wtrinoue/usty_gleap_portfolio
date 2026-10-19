@@ -128,7 +128,7 @@ public class LimitHPToken : StatusToken
 
 public class MagicToken : StatusToken
 {
-    private float magic;
+    private float magic = 0f;
     public override void ExtractStatus(in StatusVector s)
     {
         magic = s.Calculate(StatusCategory.Magic);
