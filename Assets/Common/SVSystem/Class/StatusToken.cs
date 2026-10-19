@@ -125,3 +125,17 @@ public class LimitHPToken : StatusToken
         }
     }
 }
+
+public class MagicToken : StatusToken
+{
+    private float magic;
+    public override void ExtractStatus(in StatusVector s)
+    {
+        magic = s.Calculate(StatusCategory.Magic);
+    }
+
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        target.Add(StatusCategory.Magic, StatusMethod.Base, magic);
+    }
+}
