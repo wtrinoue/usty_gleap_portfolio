@@ -3,6 +3,7 @@ using UnityEngine.Rendering;
 [RequireComponent(typeof(StatusContainer))]
 [RequireComponent(typeof(HpBarGenerator))]
 [RequireComponent(typeof(EffectGenerator))]
+[RequireComponent(typeof(SpiritGenerator))]
 
 public class CharacterBaseComponent : MonoBehaviour
 { }
