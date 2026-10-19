@@ -5,13 +5,7 @@ using NUnit.Framework.Internal.Filters;
 
 public abstract class StatusToken
 {
-    public Action action = () => { };
     public abstract void ExtractStatus(in StatusVector s);
-
-    public void SetAction(Action a)
-    {
-        action = a;
-    }
 
     public void Execute(in StatusVector target, StatusVector modified)
     {
@@ -95,6 +89,11 @@ public class DamageToken : StatusToken
 
 public class DeadToken : StatusToken
 {
+    private Action action;
+    public void SetAction(Action action)
+    {
+        this.action = action;
+    }
     public override void ExtractStatus(in StatusVector s) { }
     public override void Calculate(in StatusVector target, StatusVector modified)
     {
