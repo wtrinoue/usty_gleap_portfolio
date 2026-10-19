@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SpiritOrbBehaviour : MonoBehaviour, WeaponCoreInterface
@@ -38,6 +39,12 @@ public class SpiritOrbBehaviour : MonoBehaviour, WeaponCoreInterface
     }
     public void Fire()
     {
+        StartCoroutine(WaitForChase());
+    }
+
+    private IEnumerator WaitForChase()
+    {
+        yield return new WaitForSeconds(1f);
         chasable = true;
     }
 

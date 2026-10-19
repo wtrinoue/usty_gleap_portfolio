@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: b90bbd190de984e45ac89800c786f922
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - spiritOrbPrefab: {fileID: 207423409045702950, guid: 4d6b2c0ea07091c4c9c33c3511f96889, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
