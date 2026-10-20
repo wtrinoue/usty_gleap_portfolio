@@ -132,6 +132,9 @@ public class MagicToken : StatusToken
     public override void ExtractStatus(in StatusVector s)
     {
         magic = s.Calculate(StatusCategory.Magic);
+        s.Set(StatusCategory.Magic, StatusMethod.Base, 0f);
+        s.Set(StatusCategory.Magic, StatusMethod.Add, 0f);
+        s.Set(StatusCategory.Magic, StatusMethod.Multiply, 0f);
     }
 
     public override void Calculate(in StatusVector target, StatusVector modified)
