@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Properties;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,7 @@ public class PlayerAction : MonoBehaviour
     private List<GameObject> graves;
     private int currentWeaponCoreIndex = 0;
     private InputAction fireAction;
+    private InputAction rightClickAction;
     private InputAction scrollAction;
     private InputAction spaceAction;
     private bool isDestroyed = false;
@@ -33,6 +35,15 @@ public class PlayerAction : MonoBehaviour
 
         fireAction.performed += OnFire;
 
+        // 右クリック用 InputAction(Button)
+        rightClickAction = new InputAction(
+            name: "RightClick",
+            type: InputActionType.Button,
+            binding: "<Mouse>/rightButton"
+        );
+
+        rightClickAction.performed += OnRightClick;
+
         // スクロール用 InputAction(Value)
         scrollAction = new InputAction(
             name: "Scroll",
@@ -52,6 +63,7 @@ public class PlayerAction : MonoBehaviour
         spaceAction.performed += OnSpace;
 
         fireAction.Enable();
+        rightClickAction.Enable();
         scrollAction.Enable();
         spaceAction.Enable();
         isInitialized = true;
@@ -69,10 +81,12 @@ public class PlayerAction : MonoBehaviour
     void OnDisable()
     {
         fireAction.performed -= OnFire;
+        rightClickAction.performed -= OnRightClick;
         scrollAction.performed -= OnScroll;
         spaceAction.performed -= OnSpace;
 
         fireAction.Disable();
+        rightClickAction.Disable();
         scrollAction.Disable();
         spaceAction.Disable();
     }
@@ -120,6 +134,29 @@ public class PlayerAction : MonoBehaviour
         wci.Init();
         wci.ExtractPlayerStatus(statusContainer.GetStatus());
         wci.Fire();
+    }
+    public void OnRightClick(InputAction.CallbackContext context)
+    {
+        if (!isInitialized) return;
+        Debug.Log($"graveHolder: {graveHolder}, graves: {graves}");
+        if (isDestroyed)
+        {
+            Debug.Log("破壊されています");
+            return;
+        }
+        if (!context.performed)
+        {
+            Debug.Log("スペースキーではありません");
+            return;
+        }
+        // graves と graveHolder が初期化されているか確認
+        if (graves == null)
+        {
+            graves = graveHolder.GetGraves();
+        }
+        Debug.Log("スペースが動作します");
+        // お墓を生成
+        GenerateGrave();
     }
 
     public void OnScroll(InputAction.CallbackContext context)
