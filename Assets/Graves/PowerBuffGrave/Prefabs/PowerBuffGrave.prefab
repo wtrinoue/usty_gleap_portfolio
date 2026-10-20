@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7750948624084748299}
   - component: {fileID: 2040734840731606830}
   - component: {fileID: 8975241927724767390}
+  - component: {fileID: 4391752914395677249}
   m_Layer: 0
   m_Name: PowerBuffGrave
   m_TagString: Untagged
@@ -210,6 +211,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusContainer
   statusMatrix: {fileID: 11400000, guid: 2318e697c5fff914595b51a14cb8e889, type: 2}
+--- !u!114 &4391752914395677249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2541214235751769276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7100ac94754260c4e966bf905b48045b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusBarGenerator
+  statusBarPrefab: {fileID: 1816191680255391589, guid: 2800858339bfc9f45abd8ada18bf901c, type: 3}
+  height: 1
+  statusCategory: 2
+  color: {r: 0, g: 0.90637374, b: 1, a: 1}
 --- !u!1 &3648585563183927538
 GameObject:
   m_ObjectHideFlags: 0

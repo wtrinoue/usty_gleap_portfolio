@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 784465765187668276}
   - component: {fileID: 8354420407679308830}
   - component: {fileID: 7024609809538479158}
+  - component: {fileID: 6648762043253518343}
   m_Layer: 0
   m_Name: PlazmaGrave
   m_TagString: Untagged
@@ -194,6 +195,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpiritConsumer
   modifierDefinition: {fileID: 11400000, guid: 19d8cb2e5f1727540b1b88d39305528f, type: 2}
+--- !u!114 &6648762043253518343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2541214235751769276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7100ac94754260c4e966bf905b48045b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusBarGenerator
+  statusBarPrefab: {fileID: 1816191680255391589, guid: 2800858339bfc9f45abd8ada18bf901c, type: 3}
+  height: 1
+  statusCategory: 2
+  color: {r: 0, g: 0.8164692, b: 1, a: 1}
 --- !u!1001 &6592313021228804691
 PrefabInstance:
   m_ObjectHideFlags: 0

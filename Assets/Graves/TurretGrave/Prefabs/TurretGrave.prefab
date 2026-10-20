@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5514954446295527885}
   - component: {fileID: 6787433572791105000}
   - component: {fileID: 199162090782475980}
+  - component: {fileID: -9027785383626291622}
   m_Layer: 0
   m_Name: TurretGrave
   m_TagString: Untagged
@@ -134,3 +135,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpiritConsumer
   modifierDefinition: {fileID: 11400000, guid: 19d8cb2e5f1727540b1b88d39305528f, type: 2}
+--- !u!114 &-9027785383626291622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5369926814039629055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7100ac94754260c4e966bf905b48045b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusBarGenerator
+  statusBarPrefab: {fileID: 1816191680255391589, guid: 2800858339bfc9f45abd8ada18bf901c, type: 3}
+  height: 1
+  statusCategory: 2
+  color: {r: 0, g: 0.7987695, b: 1, a: 1}
