@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4779452800462370845}
   - component: {fileID: 4141493475123042726}
   - component: {fileID: 7083903477699073578}
+  - component: {fileID: 1852577040871601431}
   m_Layer: 0
   m_Name: CurlingGrave
   m_TagString: Untagged
@@ -120,6 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CurlingGraveBehaviour
   statusContainer: {fileID: 4779452800462370845}
   targetAngle: 0
+  lifeTime: 4
 --- !u!60 &7083903477699073578
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -239,3 +241,16 @@ PolygonCollider2D:
       - {x: 0.96999997, y: -1.5949999}
       - {x: 0.98999995, y: -1.5749999}
   m_UseDelaunayMesh: 0
+--- !u!114 &1852577040871601431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7289166768144272409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7b61665ca72554eae19e6175f92c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpiritConsumer
+  modifierDefinition: {fileID: 11400000, guid: 19d8cb2e5f1727540b1b88d39305528f, type: 2}

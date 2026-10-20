@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 784465765187668276}
   - component: {fileID: 2984223814147362481}
   - component: {fileID: 6414177819442626183}
+  - component: {fileID: 4799651718855070292}
   m_Layer: 0
   m_Name: PoisonGrave
   m_TagString: Untagged
@@ -196,6 +197,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusContainer
   statusMatrix: {fileID: 11400000, guid: 6ae80da21dd01c040b1378b1b24df269, type: 2}
+--- !u!114 &4799651718855070292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2541214235751769276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7b61665ca72554eae19e6175f92c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpiritConsumer
+  modifierDefinition: {fileID: 11400000, guid: 19d8cb2e5f1727540b1b88d39305528f, type: 2}
 --- !u!1 &8790943184754218297
 GameObject:
   m_ObjectHideFlags: 0
