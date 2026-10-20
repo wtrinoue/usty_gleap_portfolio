@@ -10,7 +10,7 @@ public class SpiritConsumer : MonoBehaviour, WeaponInterface
 
     void Start()
     {
-        Debug();
+        // Debug();
     }
     private void Debug()
     {

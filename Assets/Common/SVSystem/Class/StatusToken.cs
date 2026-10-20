@@ -132,13 +132,27 @@ public class MagicToken : StatusToken
     public override void ExtractStatus(in StatusVector s)
     {
         magic = s.Calculate(StatusCategory.Magic);
-        s.Set(StatusCategory.Magic, StatusMethod.Base, 0f);
-        s.Set(StatusCategory.Magic, StatusMethod.Add, 0f);
-        s.Set(StatusCategory.Magic, StatusMethod.Multiply, 0f);
     }
 
     public override void Calculate(in StatusVector target, StatusVector modified)
     {
         target.Add(StatusCategory.Magic, StatusMethod.Base, magic);
+    }
+}
+
+// 決められたカテゴリーのステータスをすべて削除するトークン
+public class ResetToken : StatusToken
+{
+    private StatusCategory sc;
+    public ResetToken(StatusCategory category)
+    {
+        sc = category;
+    }
+    public override void ExtractStatus(in StatusVector s) { }
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        target.Set(sc, StatusMethod.Base, 0f);
+        target.Set(sc, StatusMethod.Add, 0f);
+        target.Set(sc, StatusMethod.Multiply, 0f);
     }
 }

@@ -171,7 +171,19 @@ public class PlayerAction : MonoBehaviour
         }
 
         // 自分の位置に生成
-        Instantiate(graves[0], transform.position, Quaternion.identity);
+        GameObject grave = Instantiate(graves[0], transform.position, Quaternion.identity);
+        // MagicTokenを生成する。
+        MagicToken magicToken = new();
+        magicToken.ExtractStatus(statusContainer.GetStatus());
+        // MagicTokenをGraveに流す
+        WeaponInterface wi = grave.GetComponent<WeaponInterface>();
+        wi.Init();
+        wi.InsertToken(magicToken);
+        wi.Fire();
+        // 自分のMagicをリセットする。
+        ResetToken resetToken = new(StatusCategory.Magic);
+        statusContainer.ApplyOneTimeToken(resetToken);
+        // お墓を削除する。
         graveHolder.RemoveFirstGrave();
 
         // 自分を破壊
