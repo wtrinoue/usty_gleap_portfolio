@@ -179,22 +179,8 @@ public class PlayerAction : MonoBehaviour
             DestroyMe();
             return;
         }
-
-        // 自分の位置に生成
-        GameObject grave = Instantiate(graves[0], transform.position, Quaternion.identity);
-        // MagicTokenを生成する。
-        MagicToken magicToken = new();
-        magicToken.ExtractStatus(statusContainer.GetStatus());
-        // MagicTokenをGraveに流す
-        WeaponInterface wi = grave.GetComponent<WeaponInterface>();
-        wi.Init();
-        wi.InsertToken(magicToken);
-        wi.Fire();
-        // 自分のMagicをリセットする。
-        ResetToken resetToken = new(StatusCategory.Magic);
-        statusContainer.ApplyOneTimeToken(resetToken);
-        // お墓を削除する。
-        graveHolder.RemoveFirstGrave();
+        // お墓を生成
+        GenerateGrave();
 
         // 自分を破壊
         DestroyMe();
@@ -211,5 +197,26 @@ public class PlayerAction : MonoBehaviour
     {
         yield return null; // 1フレーム待つ
         Destroy(gameObject);
+    }
+    private void GenerateGrave()
+    {
+        // 自分の位置に生成
+        GameObject grave = Instantiate(graves[0], transform.position, Quaternion.identity);
+        // HpToMagicTokenを生成する。
+        HpToMagicToken htmt = new();
+        htmt.ExtractStatus(statusContainer.GetStatus());
+        // MagicTokenをGraveに流す
+        WeaponInterface wi = grave.GetComponent<WeaponInterface>();
+        wi.Init();
+        wi.InsertToken(htmt);
+        wi.Fire();
+        // MagicをHPにする
+        CopyToken copyToken = new(StatusCategory.Magic, StatusCategory.HP);
+        statusContainer.ApplyOneTimeToken(copyToken);
+        // 自分のMagicをリセットする。
+        ResetToken resetToken = new(StatusCategory.Magic);
+        statusContainer.ApplyOneTimeToken(resetToken);
+        // お墓を削除する。
+        graveHolder.RemoveFirstGrave();
     }
 }

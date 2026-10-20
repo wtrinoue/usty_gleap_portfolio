@@ -158,6 +158,20 @@ public class MagicToken : StatusToken
     }
 }
 
+public class HpToMagicToken : StatusToken
+{
+    private float magic = 0f;
+    public override void ExtractStatus(in StatusVector s)
+    {
+        magic = s.Calculate(StatusCategory.HP);
+    }
+
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        target.Add(StatusCategory.Magic, StatusMethod.Base, magic);
+    }
+}
+
 // 決められたカテゴリーのステータスをすべて削除するトークン
 public class ResetToken : StatusToken
 {
