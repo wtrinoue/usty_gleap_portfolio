@@ -19,6 +19,7 @@ public class PlayerAction : MonoBehaviour
     private InputAction spaceAction;
     private bool isDestroyed = false;
     private bool isInitialized = false;
+    private bool enableFire = true;
     void Start()
     {
         weaponCoreHolder = gameObject.GetComponent<WeaponCoreHolder>();
@@ -113,6 +114,9 @@ public class PlayerAction : MonoBehaviour
         if (weaponCoreList.Count == 0) return;
         Debug.Log("クリックが動作します");
 
+        // enableFireがtrueでないと発動しない
+        if (!enableFire) return;
+
         // 自分→マウス方向のベクトル
         Vector3 direction = GetMouseDirection();
 
@@ -125,6 +129,7 @@ public class PlayerAction : MonoBehaviour
         wci.Init();
         wci.ExtractPlayerStatus(statusContainer.GetStatus());
         wci.Fire();
+        StartCoroutine(WaitForFire(0.3f));
     }
     public void OnRightClick(InputAction.CallbackContext context)
     {
@@ -281,5 +286,12 @@ public class PlayerAction : MonoBehaviour
         float currentMagic = statusContainer.statusVector.Get(StatusCategory.Magic, StatusMethod.Base);
         bool enable = currentMagic >= currentHP && graves.Count > 0;
         return enable;
+    }
+
+    private IEnumerator WaitForFire(float interval)
+    {
+        enableFire = false;
+        yield return new WaitForSeconds(interval);
+        enableFire = true;
     }
 }

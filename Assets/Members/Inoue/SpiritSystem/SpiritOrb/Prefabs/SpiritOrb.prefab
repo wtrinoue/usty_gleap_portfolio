@@ -105,10 +105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344a3529d999e534ebb2f71ec64ed764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpiritOrbBehaviour
-  moveSpeed: 5
+  moveSpeed: 8
   optimalDistance: 0
   attenuationRadius: 0
-  vortexSpeed: 3
+  vortexSpeed: 0
 --- !u!58 &4847745113036800870
 CircleCollider2D:
   m_ObjectHideFlags: 0
