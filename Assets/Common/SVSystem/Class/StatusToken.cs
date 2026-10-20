@@ -126,6 +126,24 @@ public class LimitHPToken : StatusToken
     }
 }
 
+public class LimitMagicByHPToken : StatusToken
+{
+    private float maxMagic;
+    public override void ExtractStatus(in StatusVector s)
+    {
+        maxMagic = s.Get(StatusCategory.HP, StatusMethod.Base);
+    }
+
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        float currentMagic = target.Get(StatusCategory.Magic, StatusMethod.Base);
+        if (currentMagic > maxMagic)
+        {
+            target.Set(StatusCategory.Magic, StatusMethod.Base, maxMagic);
+        }
+    }
+}
+
 public class MagicToken : StatusToken
 {
     private float magic = 0f;

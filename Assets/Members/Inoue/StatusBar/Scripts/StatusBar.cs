@@ -25,10 +25,6 @@ public class StatusBar : MonoBehaviour
         if (IsDestroyed) return;
 
         float currentParam = _statusContainer.GetStatus().Get(statusCategory, StatusMethod.Base);
-        if (currentParam <= 0)
-        {
-            DestroyBar();
-        }
 
         // MaxHPが0の場合は0を設定
         _statusSlider.value = maxParam > 0 ? currentParam / maxParam : 0;
@@ -38,7 +34,6 @@ public class StatusBar : MonoBehaviour
         transform.rotation = Camera.main.transform.rotation;
         transform.position = target.position + offset;
         // transform.Rotate(0, 180, 0);
-        Debug.Log("StatusBar更新中");
     }
     public void SetStatusCategory(StatusCategory sc)
     {
