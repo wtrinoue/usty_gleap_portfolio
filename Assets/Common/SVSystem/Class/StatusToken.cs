@@ -174,3 +174,26 @@ public class ResetToken : StatusToken
         target.Set(sc, StatusMethod.Multiply, 0f);
     }
 }
+
+// カテゴリーの行を別のカテゴリーに複製するトークン
+public class CopyToken : StatusToken
+{
+    private StatusCategory sourceSC;
+    private StatusCategory targetSC;
+    public CopyToken(StatusCategory ssc, StatusCategory tsc)
+    {
+        sourceSC = ssc;
+        targetSC = tsc;
+    }
+    public override void ExtractStatus(in StatusVector s) { }
+
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        float tmpBase = target.Get(sourceSC, StatusMethod.Base);
+        float tmpAdd = target.Get(sourceSC, StatusMethod.Add);
+        float tmpMultiply = target.Get(sourceSC, StatusMethod.Multiply);
+        target.Set(targetSC, StatusMethod.Base, tmpBase);
+        target.Set(targetSC, StatusMethod.Add, tmpAdd);
+        target.Set(targetSC, StatusMethod.Multiply, tmpMultiply);
+    }
+}
