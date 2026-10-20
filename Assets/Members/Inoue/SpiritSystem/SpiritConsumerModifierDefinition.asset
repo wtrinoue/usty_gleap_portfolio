@@ -18,4 +18,4 @@ MonoBehaviour:
   modifiers:
   - category: 2
     method: 0
-    value: -0.01
+    value: -0.005

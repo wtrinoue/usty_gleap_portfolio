@@ -14,7 +14,7 @@ public class FollowEnemyAI : MonoBehaviour, IStateProvider
     [SerializeField] private FollowEnemyMove moveComponent;
     [SerializeField] private FollowEnemyAnimation animationComponent;
     [SerializeField] private StatusContainer statusContainer;
-    [SerializeField] private float stopDistance = 1f;
+    [SerializeField] private float stopDistance = 0f;
     [SerializeField] private string playerTag = "Player";
 
     private readonly StateMachine stateMachine = new();

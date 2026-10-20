@@ -7,7 +7,7 @@ public class FollowEnemyMove : MonoBehaviour
 {
     [Header("移動設定")]
     [SerializeField] private float moveSpeed = 3.5f;
-    [SerializeField] private float stopDistance = 1.5f;
+    [SerializeField] private float stopDistance = 0f;
 
     private Transform playerTarget;
 

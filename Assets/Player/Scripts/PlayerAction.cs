@@ -10,6 +10,7 @@ public class PlayerAction : MonoBehaviour
     private List<GameObject> weaponCoreList;
     private GraveHolder graveHolder;
     private StatusContainer statusContainer;
+    private PlayerMove playerMove;
     private List<GameObject> graves;
     private int currentWeaponCoreIndex = 0;
     private InputAction fireAction;
@@ -24,6 +25,7 @@ public class PlayerAction : MonoBehaviour
         weaponCoreList = weaponCoreHolder.GetWeaponCoreList();
         graveHolder = gameObject.GetComponent<GraveHolder>();
         statusContainer = GetComponent<StatusContainer>();
+        playerMove = GetComponent<PlayerMove>();
         graves = graveHolder.GetGraves();
 
         // 攻撃用 InputAction(Button)
@@ -110,20 +112,9 @@ public class PlayerAction : MonoBehaviour
         weaponCoreList ??= weaponCoreHolder.GetWeaponCoreList();
         if (weaponCoreList.Count == 0) return;
         Debug.Log("クリックが動作します");
-        // マウス座標をスクリーン空間で取得
-        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
-
-        // スクリーン座標 → ワールド座標
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
-
-        // Z座標は2Dなら0に固定
-        mouseWorldPos.z = 0f;
-
-        // 自分（このオブジェクト）の位置
-        Vector3 myPos = transform.position;
 
         // 自分→マウス方向のベクトル
-        Vector3 direction = -(mouseWorldPos - myPos).normalized;
+        Vector3 direction = GetMouseDirection();
 
         GameObject clone = Instantiate(weaponCoreList[currentWeaponCoreIndex], transform.position, Quaternion.identity);
         clone.transform.SetParent(transform);
@@ -154,9 +145,16 @@ public class PlayerAction : MonoBehaviour
         {
             graves = graveHolder.GetGraves();
         }
-        Debug.Log("スペースが動作します");
-        // お墓を生成
-        GenerateGrave();
+        // MagicがHPを上回っているかチェック
+        if (EnableGenerateGrave())
+        {
+            // お墓を生成
+            GenerateGrave();
+
+            // ゴーストエスケープ
+            playerMove.GhostEscape(GetMouseDirection());
+        }
+
     }
 
     public void OnScroll(InputAction.CallbackContext context)
@@ -255,5 +253,33 @@ public class PlayerAction : MonoBehaviour
         statusContainer.ApplyOneTimeToken(resetToken);
         // お墓を削除する。
         graveHolder.RemoveFirstGrave();
+    }
+
+    private Vector3 GetMouseDirection()
+    {
+        // マウス座標をスクリーン空間で取得
+        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
+
+        // スクリーン座標 → ワールド座標
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+
+        // Z座標は2Dなら0に固定
+        mouseWorldPos.z = 0f;
+
+        // 自分（このオブジェクト）の位置
+        Vector3 myPos = transform.position;
+
+        // 自分→マウス方向のベクトル
+        Vector3 direction = -(mouseWorldPos - myPos).normalized;
+
+        return direction;
+    }
+
+    private bool EnableGenerateGrave()
+    {
+        float currentHP = statusContainer.statusVector.Get(StatusCategory.HP, StatusMethod.Base);
+        float currentMagic = statusContainer.statusVector.Get(StatusCategory.Magic, StatusMethod.Base);
+        bool enable = currentMagic >= currentHP && graves.Count > 0;
+        return enable;
     }
 }
