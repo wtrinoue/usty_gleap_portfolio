@@ -153,14 +153,26 @@ public class PlayerAction : MonoBehaviour
 
         float currentMagic = statusContainer.statusVector.Get(StatusCategory.Magic, StatusMethod.Base);
 
-        // お墓を持っているのかチェック
-        if (graves.Count > 0 && currentMagic >= 2f)
+        // Magicが一定の量以上あるかチェック
+        if (currentMagic >= 2f)
         {
-            // お墓を生成
-            GenerateGrave();
+            // MagicをHPに変換
+            MagicToHpToken mtht = new();
+            mtht.ExtractStatus(statusContainer.GetStatus());
+            statusContainer.ApplyOneTimeToken(mtht);
 
             // ゴーストエスケープ
             playerMove.GhostEscape(GetMouseDirection());
+
+            if (graves.Count > 0)
+            {
+                // お墓を生成
+                GenerateGrave();
+            }
+
+            // Magicをリセット
+            ResetToken rt = new(StatusCategory.Magic);
+            statusContainer.ApplyOneTimeToken(rt);
         }
 
     }
@@ -245,48 +257,18 @@ public class PlayerAction : MonoBehaviour
     {
         // 自分の位置に生成
         GameObject grave = Instantiate(graves[0], transform.position, Quaternion.identity);
-        // StatusTokenを作成する。
-        StatusToken st;
-        if (MagicOrHP())
-        {
-            st = ConvertMagic();
-        }
-        else
-        {
-            st = ConvertHP();
-        }
+
+        // MagicTokenを作成する。
+        MagicToken magicToken = new();
+        magicToken.ExtractStatus(statusContainer.GetStatus());
+
         // MagicTokenをGraveに流す
         WeaponInterface wi = grave.GetComponent<WeaponInterface>();
         wi.Init();
-        wi.InsertToken(st);
+        wi.InsertToken(magicToken);
         wi.Fire();
         // お墓を削除する。
         graveHolder.RemoveFirstGrave();
-    }
-
-    private StatusToken ConvertHP()
-    {
-        // HpToMagicTokenを生成する。
-        HpToMagicToken htmt = new();
-        htmt.ExtractStatus(statusContainer.GetStatus());
-        // MagicをHPにする
-        CopyToken copyToken = new(StatusCategory.Magic, StatusCategory.HP);
-        statusContainer.ApplyOneTimeToken(copyToken);
-        // 自分のMagicをリセットする。
-        ResetToken resetToken = new(StatusCategory.Magic);
-        statusContainer.ApplyOneTimeToken(resetToken);
-        return htmt;
-    }
-
-    private StatusToken ConvertMagic()
-    {
-        // MagicTokenを生成する。
-        MagicToken mt = new();
-        mt.ExtractStatus(statusContainer.GetStatus());
-        // 自分のMagicをリセットする。
-        ResetToken resetToken = new(StatusCategory.Magic);
-        statusContainer.ApplyOneTimeToken(resetToken);
-        return mt;
     }
 
     private Vector3 GetMouseDirection()
@@ -307,14 +289,6 @@ public class PlayerAction : MonoBehaviour
         Vector3 direction = -(mouseWorldPos - myPos).normalized;
 
         return direction;
-    }
-
-    private bool MagicOrHP()
-    {
-        float currentHP = statusContainer.statusVector.Get(StatusCategory.HP, StatusMethod.Base);
-        float currentMagic = statusContainer.statusVector.Get(StatusCategory.Magic, StatusMethod.Base);
-        bool magic = currentMagic <= currentHP;
-        return magic;
     }
 
     private IEnumerator WaitForFire(float interval)

@@ -103,3 +103,17 @@ public class HpToMagicToken : StatusToken
         target.Add(StatusCategory.Magic, StatusMethod.Base, magic);
     }
 }
+
+public class MagicToHpToken : StatusToken
+{
+    private float hp = 0f;
+    public override void ExtractStatus(in StatusVector s)
+    {
+        hp = s.Calculate(StatusCategory.Magic);
+    }
+
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        target.Add(StatusCategory.HP, StatusMethod.Base, hp);
+    }
+}

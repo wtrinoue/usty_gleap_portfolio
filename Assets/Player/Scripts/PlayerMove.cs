@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private BoxCollider2D bc;
+    private StatusContainer sc;
     private bool escaping = false;
 
     // ���͒l��n��
@@ -24,6 +25,7 @@ public class PlayerMove : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         bc = GetComponent<BoxCollider2D>();
+        sc = GetComponent<StatusContainer>();
     }
 
     // Update����Ă�
@@ -48,13 +50,13 @@ public class PlayerMove : MonoBehaviour
         Color currentColor = sr.color;
         currentColor.a = 0.5f;
         sr.color = currentColor;
-        // 決められた方向に突進
-        rb.linearVelocity = -direction * 30.0f;
+        // 決められた方向に突進, Magicが大きいほどよく飛ぶ
+        rb.linearVelocity = -direction * sc.GetStatus().Calculate(StatusCategory.Magic) * 4f;
         // 敵は透過するようにする
         bc.isTrigger = true;
 
         // 数秒間待つ
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(3.0f);
 
         // 透明化を解除する
         currentColor.a = 1.0f;
