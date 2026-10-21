@@ -150,8 +150,11 @@ public class PlayerAction : MonoBehaviour
         {
             graves = graveHolder.GetGraves();
         }
-        // MagicがHPを上回っているかチェック
-        if (EnableGenerateGrave())
+
+        float currentMagic = statusContainer.statusVector.Get(StatusCategory.Magic, StatusMethod.Base);
+
+        // お墓を持っているのかチェック
+        if (graves.Count > 0 && currentMagic >= 2f)
         {
             // お墓を生成
             GenerateGrave();
@@ -242,22 +245,48 @@ public class PlayerAction : MonoBehaviour
     {
         // 自分の位置に生成
         GameObject grave = Instantiate(graves[0], transform.position, Quaternion.identity);
-        // HpToMagicTokenを生成する。
-        HpToMagicToken htmt = new();
-        htmt.ExtractStatus(statusContainer.GetStatus());
+        // StatusTokenを作成する。
+        StatusToken st;
+        if (MagicOrHP())
+        {
+            st = ConvertMagic();
+        }
+        else
+        {
+            st = ConvertHP();
+        }
         // MagicTokenをGraveに流す
         WeaponInterface wi = grave.GetComponent<WeaponInterface>();
         wi.Init();
-        wi.InsertToken(htmt);
+        wi.InsertToken(st);
         wi.Fire();
+        // お墓を削除する。
+        graveHolder.RemoveFirstGrave();
+    }
+
+    private StatusToken ConvertHP()
+    {
+        // HpToMagicTokenを生成する。
+        HpToMagicToken htmt = new();
+        htmt.ExtractStatus(statusContainer.GetStatus());
         // MagicをHPにする
         CopyToken copyToken = new(StatusCategory.Magic, StatusCategory.HP);
         statusContainer.ApplyOneTimeToken(copyToken);
         // 自分のMagicをリセットする。
         ResetToken resetToken = new(StatusCategory.Magic);
         statusContainer.ApplyOneTimeToken(resetToken);
-        // お墓を削除する。
-        graveHolder.RemoveFirstGrave();
+        return htmt;
+    }
+
+    private StatusToken ConvertMagic()
+    {
+        // MagicTokenを生成する。
+        MagicToken mt = new();
+        mt.ExtractStatus(statusContainer.GetStatus());
+        // 自分のMagicをリセットする。
+        ResetToken resetToken = new(StatusCategory.Magic);
+        statusContainer.ApplyOneTimeToken(resetToken);
+        return mt;
     }
 
     private Vector3 GetMouseDirection()
@@ -280,12 +309,12 @@ public class PlayerAction : MonoBehaviour
         return direction;
     }
 
-    private bool EnableGenerateGrave()
+    private bool MagicOrHP()
     {
         float currentHP = statusContainer.statusVector.Get(StatusCategory.HP, StatusMethod.Base);
         float currentMagic = statusContainer.statusVector.Get(StatusCategory.Magic, StatusMethod.Base);
-        bool enable = currentMagic >= currentHP && graves.Count > 0;
-        return enable;
+        bool magic = currentMagic <= currentHP;
+        return magic;
     }
 
     private IEnumerator WaitForFire(float interval)
