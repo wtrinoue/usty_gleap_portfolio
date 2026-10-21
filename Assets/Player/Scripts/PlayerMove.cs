@@ -46,21 +46,28 @@ public class PlayerMove : MonoBehaviour
     {
         escaping = true;
 
+        // Magicが多いほど有利(最大値との割合で決まる。)
+        float ratio = sc.GetStatus().Calculate(StatusCategory.Magic) / sc.statusMatrix.Get(StatusCategory.Magic, StatusMethod.Base);
+
         // ちょっと透明にする
         Color currentColor = sr.color;
         currentColor.a = 0.5f;
         sr.color = currentColor;
+
         // 決められた方向に突進, Magicが大きいほどよく飛ぶ
-        rb.linearVelocity = -direction * sc.GetStatus().Calculate(StatusCategory.Magic) * 4f;
+        rb.linearVelocity = -direction * ratio * 40f;
+
         // 敵は透過するようにする
         bc.isTrigger = true;
 
         // 数秒間待つ
-        yield return new WaitForSeconds(3.0f);
+        float seconds = ratio * 3.0f;
+        yield return new WaitForSeconds(seconds);
 
         // 透明化を解除する
         currentColor.a = 1.0f;
         sr.color = currentColor;
+
         // 透過しないようにする
         bc.isTrigger = false;
 
