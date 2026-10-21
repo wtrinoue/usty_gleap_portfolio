@@ -71,11 +71,6 @@ public class PlayerAction : MonoBehaviour
         spaceAction.Enable();
         isInitialized = true;
 
-        // MagicをHP以下に抑える
-        LimitMagicByHPToken lmbht = new();
-        lmbht.ExtractStatus(statusContainer.GetStatus());
-        statusContainer.ApplyEternalToken(lmbht);
-
         // Magicを初めは0にする。
         ResetToken rt = new(StatusCategory.Magic);
         statusContainer.ApplyOneTimeToken(rt);

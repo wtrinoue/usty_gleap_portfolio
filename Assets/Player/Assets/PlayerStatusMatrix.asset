@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: PlayerStatusMatrix
   m_EditorClassIdentifier: Assembly-CSharp::StatusMatrix
   values:
-  - 10
+  - 20
   - 0
   - 0
   - 1
   - 0
   - 0
-  - 10
+  - 20
   - 0
   - 0
   - 0
