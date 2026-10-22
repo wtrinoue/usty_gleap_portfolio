@@ -1,72 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using NUnit.Framework.Internal.Filters;
-
-public abstract class StatusToken
-{
-    public abstract void ExtractStatus(in StatusVector s);
-
-    public void Execute(in StatusVector target, StatusVector modified)
-    {
-        modified.Validate();
-        Calculate(target, modified);
-    }
-    public abstract void Calculate(in StatusVector target, StatusVector modified);
-}
-
-// ステータスに対する自由な変更をラムダ式で登録する。
-public class CustomToken : StatusToken
-{
-    private new readonly Action<StatusVector> action;
-
-    public override void ExtractStatus(in StatusVector s) { }
-
-    public CustomToken(Action<StatusVector> action)
-    {
-        this.action = action;
-    }
-    public override void Calculate(in StatusVector target, StatusVector modified)
-    {
-        action(target);
-    }
-}
-
-// ステータスを複数入れるためのToken
-public class PackToken : StatusToken
-{
-    List<StatusToken> statusTokens = new();
-
-    public void AddStatusToken(StatusToken st)
-    {
-        statusTokens.Add(st);
-    }
-
-    public List<StatusToken> GetTokenList()
-    {
-        return statusTokens;
-    }
-
-    public void SetTokenList(List<StatusToken> statusTokens)
-    {
-        this.statusTokens = statusTokens;
-    }
-
-    public override void ExtractStatus(in StatusVector s)
-    {
-        foreach (StatusToken st in statusTokens)
-        {
-            st.ExtractStatus(s);
-        }
-    }
-    public override void Calculate(in StatusVector target, StatusVector modified)
-    {
-        foreach (StatusToken st in statusTokens)
-        {
-            st.Calculate(target, modified);
-        }
-    }
-}
 
 public class DamageToken : StatusToken
 {
@@ -123,5 +55,65 @@ public class LimitHPToken : StatusToken
         {
             target.Set(StatusCategory.HP, StatusMethod.Base, maxHP);
         }
+    }
+}
+
+public class LimitMagicByHPToken : StatusToken
+{
+    private float maxMagic;
+    public override void ExtractStatus(in StatusVector s)
+    {
+        maxMagic = s.Get(StatusCategory.HP, StatusMethod.Base);
+    }
+
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        float currentMagic = target.Get(StatusCategory.Magic, StatusMethod.Base);
+        if (currentMagic > maxMagic)
+        {
+            target.Set(StatusCategory.Magic, StatusMethod.Base, maxMagic);
+        }
+    }
+}
+
+public class MagicToken : StatusToken
+{
+    private float magic = 0f;
+    public override void ExtractStatus(in StatusVector s)
+    {
+        magic = s.Calculate(StatusCategory.Magic);
+    }
+
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        target.Add(StatusCategory.Magic, StatusMethod.Base, magic);
+    }
+}
+
+public class HpToMagicToken : StatusToken
+{
+    private float magic = 0f;
+    public override void ExtractStatus(in StatusVector s)
+    {
+        magic = s.Calculate(StatusCategory.HP);
+    }
+
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        target.Add(StatusCategory.Magic, StatusMethod.Base, magic);
+    }
+}
+
+public class MagicToHpToken : StatusToken
+{
+    private float hp = 0f;
+    public override void ExtractStatus(in StatusVector s)
+    {
+        hp = s.Calculate(StatusCategory.Magic);
+    }
+
+    public override void Calculate(in StatusVector target, StatusVector modified)
+    {
+        target.Add(StatusCategory.HP, StatusMethod.Base, hp);
     }
 }

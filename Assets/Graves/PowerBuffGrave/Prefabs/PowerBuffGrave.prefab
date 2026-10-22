@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 475544190454031319}
   - component: {fileID: 784465765187668276}
   - component: {fileID: 7750948624084748299}
+  - component: {fileID: 2040734840731606830}
+  - component: {fileID: 8975241927724767390}
+  - component: {fileID: 4391752914395677249}
   m_Layer: 0
   m_Name: PowerBuffGrave
   m_TagString: Untagged
@@ -102,7 +105,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2541214235751769276}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -182,6 +185,48 @@ MonoBehaviour:
   buffRadius: 5
   modifierDefinition: {fileID: 11400000, guid: 2ace4aab788aced4cab10101fe964295, type: 2}
   areaCircle: {fileID: 3648585563183927538}
+--- !u!114 &2040734840731606830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2541214235751769276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7b61665ca72554eae19e6175f92c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpiritConsumer
+  modifierDefinition: {fileID: 11400000, guid: 19d8cb2e5f1727540b1b88d39305528f, type: 2}
+--- !u!114 &8975241927724767390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2541214235751769276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011afc0785335a1458ad313b53f13719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusContainer
+  statusMatrix: {fileID: 11400000, guid: 2318e697c5fff914595b51a14cb8e889, type: 2}
+--- !u!114 &4391752914395677249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2541214235751769276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7100ac94754260c4e966bf905b48045b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusBarGenerator
+  statusBarPrefab: {fileID: 1816191680255391589, guid: 2800858339bfc9f45abd8ada18bf901c, type: 3}
+  height: 1
+  statusCategory: 2
+  color: {r: 0, g: 0.90637374, b: 1, a: 1}
 --- !u!1 &3648585563183927538
 GameObject:
   m_ObjectHideFlags: 0

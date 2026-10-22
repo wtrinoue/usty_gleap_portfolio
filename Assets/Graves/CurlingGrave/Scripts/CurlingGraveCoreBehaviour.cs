@@ -1,14 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CurlingGraveCoreBehaviour : MonoBehaviour
+public class CurlingGraveCoreBehaviour : MonoBehaviour, WeaponInterface
 {
     public GameObject curlingGravePrefab;
 
     public int graveCount;
     private float offsetAngle;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private StatusToken magicToken;
+
+    public void Init() { }
+
+    public void InsertToken(StatusToken token)
+    {
+        magicToken = token;
+    }
+
+    public void Fire()
     {
         float angleInterval = 360f / graveCount;
         for (int i = 0; i < graveCount; i++)
@@ -29,5 +37,11 @@ public class CurlingGraveCoreBehaviour : MonoBehaviour
         CurlingGraveBehaviour cgb = curlingGrave.GetComponent<CurlingGraveBehaviour>();
 
         cgb.SetAngle(angle);
+
+        WeaponInterface wi = curlingGrave.GetComponent<WeaponInterface>();
+
+        wi.Init();
+        wi.InsertToken(magicToken);
+        wi.Fire();
     }
 }

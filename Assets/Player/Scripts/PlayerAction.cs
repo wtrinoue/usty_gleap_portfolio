@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Properties;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,19 +10,23 @@ public class PlayerAction : MonoBehaviour
     private List<GameObject> weaponCoreList;
     private GraveHolder graveHolder;
     private StatusContainer statusContainer;
+    private PlayerMove playerMove;
     private List<GameObject> graves;
     private int currentWeaponCoreIndex = 0;
     private InputAction fireAction;
+    private InputAction rightClickAction;
     private InputAction scrollAction;
     private InputAction spaceAction;
     private bool isDestroyed = false;
     private bool isInitialized = false;
+    private bool enableFire = true;
     void Start()
     {
         weaponCoreHolder = gameObject.GetComponent<WeaponCoreHolder>();
         weaponCoreList = weaponCoreHolder.GetWeaponCoreList();
         graveHolder = gameObject.GetComponent<GraveHolder>();
         statusContainer = GetComponent<StatusContainer>();
+        playerMove = GetComponent<PlayerMove>();
         graves = graveHolder.GetGraves();
 
         // 攻撃用 InputAction(Button)
@@ -32,6 +37,15 @@ public class PlayerAction : MonoBehaviour
         );
 
         fireAction.performed += OnFire;
+
+        // 右クリック用 InputAction(Button)
+        rightClickAction = new InputAction(
+            name: "RightClick",
+            type: InputActionType.Button,
+            binding: "<Mouse>/rightButton"
+        );
+
+        rightClickAction.performed += OnRightClick;
 
         // スクロール用 InputAction(Value)
         scrollAction = new InputAction(
@@ -52,17 +66,25 @@ public class PlayerAction : MonoBehaviour
         spaceAction.performed += OnSpace;
 
         fireAction.Enable();
+        rightClickAction.Enable();
         scrollAction.Enable();
         spaceAction.Enable();
         isInitialized = true;
+
+        // Magicを初めは0にする。
+        ResetToken rt = new(StatusCategory.Magic);
+        statusContainer.ApplyOneTimeToken(rt);
+
     }
     void OnDisable()
     {
         fireAction.performed -= OnFire;
+        rightClickAction.performed -= OnRightClick;
         scrollAction.performed -= OnScroll;
         spaceAction.performed -= OnSpace;
 
         fireAction.Disable();
+        rightClickAction.Disable();
         scrollAction.Disable();
         spaceAction.Disable();
     }
@@ -86,20 +108,12 @@ public class PlayerAction : MonoBehaviour
         weaponCoreList ??= weaponCoreHolder.GetWeaponCoreList();
         if (weaponCoreList.Count == 0) return;
         Debug.Log("クリックが動作します");
-        // マウス座標をスクリーン空間で取得
-        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
 
-        // スクリーン座標 → ワールド座標
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
-
-        // Z座標は2Dなら0に固定
-        mouseWorldPos.z = 0f;
-
-        // 自分（このオブジェクト）の位置
-        Vector3 myPos = transform.position;
+        // enableFireがtrueでないと発動しない
+        if (!enableFire) return;
 
         // 自分→マウス方向のベクトル
-        Vector3 direction = -(mouseWorldPos - myPos).normalized;
+        Vector3 direction = GetMouseDirection();
 
         GameObject clone = Instantiate(weaponCoreList[currentWeaponCoreIndex], transform.position, Quaternion.identity);
         clone.transform.SetParent(transform);
@@ -110,6 +124,52 @@ public class PlayerAction : MonoBehaviour
         wci.Init();
         wci.ExtractPlayerStatus(statusContainer.GetStatus());
         wci.Fire();
+        StartCoroutine(WaitForFire(0.3f));
+    }
+    public void OnRightClick(InputAction.CallbackContext context)
+    {
+        if (!isInitialized) return;
+        Debug.Log($"graveHolder: {graveHolder}, graves: {graves}");
+        if (isDestroyed)
+        {
+            Debug.Log("破壊されています");
+            return;
+        }
+        if (!context.performed)
+        {
+            Debug.Log("スペースキーではありません");
+            return;
+        }
+        // graves と graveHolder が初期化されているか確認
+        if (graves == null)
+        {
+            graves = graveHolder.GetGraves();
+        }
+
+        float currentMagic = statusContainer.statusVector.Get(StatusCategory.Magic, StatusMethod.Base);
+
+        // Magicが一定の量以上あるかチェック
+        if (currentMagic >= 2f)
+        {
+            // MagicをHPに変換
+            MagicToHpToken mtht = new();
+            mtht.ExtractStatus(statusContainer.GetStatus());
+            statusContainer.ApplyOneTimeToken(mtht);
+
+            // ゴーストエスケープ
+            playerMove.GhostEscape(GetMouseDirection());
+
+            if (graves.Count > 0)
+            {
+                // お墓を生成
+                GenerateGrave();
+            }
+
+            // Magicをリセット
+            ResetToken rt = new(StatusCategory.Magic);
+            statusContainer.ApplyOneTimeToken(rt);
+        }
+
     }
 
     public void OnScroll(InputAction.CallbackContext context)
@@ -169,10 +229,8 @@ public class PlayerAction : MonoBehaviour
             DestroyMe();
             return;
         }
-
-        // 自分の位置に生成
-        Instantiate(graves[0], transform.position, Quaternion.identity);
-        graveHolder.RemoveFirstGrave();
+        // お墓を生成
+        GenerateGrave();
 
         // 自分を破壊
         DestroyMe();
@@ -189,5 +247,49 @@ public class PlayerAction : MonoBehaviour
     {
         yield return null; // 1フレーム待つ
         Destroy(gameObject);
+    }
+    private void GenerateGrave()
+    {
+        // 自分の位置に生成
+        GameObject grave = Instantiate(graves[0], transform.position, Quaternion.identity);
+
+        // MagicTokenを作成する。
+        MagicToken magicToken = new();
+        magicToken.ExtractStatus(statusContainer.GetStatus());
+
+        // MagicTokenをGraveに流す
+        WeaponInterface wi = grave.GetComponent<WeaponInterface>();
+        wi.Init();
+        wi.InsertToken(magicToken);
+        wi.Fire();
+        // お墓を削除する。
+        graveHolder.RemoveFirstGrave();
+    }
+
+    private Vector3 GetMouseDirection()
+    {
+        // マウス座標をスクリーン空間で取得
+        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
+
+        // スクリーン座標 → ワールド座標
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+
+        // Z座標は2Dなら0に固定
+        mouseWorldPos.z = 0f;
+
+        // 自分（このオブジェクト）の位置
+        Vector3 myPos = transform.position;
+
+        // 自分→マウス方向のベクトル
+        Vector3 direction = -(mouseWorldPos - myPos).normalized;
+
+        return direction;
+    }
+
+    private IEnumerator WaitForFire(float interval)
+    {
+        enableFire = false;
+        yield return new WaitForSeconds(interval);
+        enableFire = true;
     }
 }

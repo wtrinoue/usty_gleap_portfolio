@@ -25,10 +25,6 @@ public class HPBar : MonoBehaviour
 
         float currentHP = _statusContainer.GetStatus().Get(StatusCategory.HP, StatusMethod.Base);
         float maxHP = _statusContainer.statusMatrix.Get(StatusCategory.HP, StatusMethod.Base);
-        if (currentHP <= 0)
-        {
-            DestroyBar();
-        }
 
         // MaxHPが0の場合は0を設定
         _hpSlider.value = maxHP > 0 ? currentHP / maxHP : 0;

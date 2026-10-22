@@ -19,5 +19,6 @@ public class ComponentRegisterScript
 public enum ComponentCategory
 {
     CharacterComponent,
-    ItemComponent
+    ItemComponent,
+    GraveComponent
 }

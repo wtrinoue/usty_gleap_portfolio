@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 3490885073730935259}
   - component: {fileID: 7801010745714717081}
   - component: {fileID: 3705872349801909299}
+  - component: {fileID: 529271720027877569}
   m_Layer: 0
   m_Name: FollowEnemy
   m_TagString: Enemy
@@ -238,7 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FollowEnemyMove
   moveSpeed: 3.5
-  stopDistance: 1.5
+  stopDistance: 0
 --- !u!114 &1870701476827826636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,7 +267,7 @@ MonoBehaviour:
   moveComponent: {fileID: 4588290493713223760}
   animationComponent: {fileID: 1870701476827826636}
   statusContainer: {fileID: 1545014821931648460}
-  stopDistance: 5
+  stopDistance: 0
   playerTag: Player
   currentState: 0
 --- !u!114 &7287508785055235449
@@ -394,3 +395,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EffectGenerator
   effectInterval: 1
   effectActorPrefab: {fileID: 8624842958771479959, guid: 488ff09634516084e8f736085fe665cb, type: 3}
+--- !u!114 &529271720027877569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7900997591495169756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b90bbd190de984e45ac89800c786f922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpiritGenerator
+  spiritOrbPrefab: {fileID: 207423409045702950, guid: 4d6b2c0ea07091c4c9c33c3511f96889, type: 3}
