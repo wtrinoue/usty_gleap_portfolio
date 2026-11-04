@@ -75,6 +75,11 @@ public class PlayerAction : MonoBehaviour
         ResetToken rt = new(StatusCategory.Magic);
         statusContainer.ApplyOneTimeToken(rt);
 
+        // MagicがHP以上にならないようにする。
+        LimitMagicByHPToken lmt = new();
+        lmt.ExtractStatus(statusContainer.GetStatus());
+        statusContainer.ApplyEternalToken(lmt);
+
     }
     void OnDisable()
     {
