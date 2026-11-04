@@ -12,9 +12,11 @@ public class TurretBulletBehaviour : MonoBehaviour, WeaponInterface
     private bool prepared = false;
     public void Init()
     {
+        Transform playerTransform = PlayerManager.Instance.CurrentPlayer;
         angle = Random.Range(0.0f, 360.0f);
         float rad = angle * Mathf.Deg2Rad;
-        direction = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f);
+        // direction = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f);
+        direction = (playerTransform.position - transform.position).normalized;
     }
     public void InsertToken(StatusToken token)
     {

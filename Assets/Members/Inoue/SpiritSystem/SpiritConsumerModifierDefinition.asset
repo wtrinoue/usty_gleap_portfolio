@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpiritConsumerModifierDefinition
   m_EditorClassIdentifier: Assembly-CSharp::ModifierDefinition
   type: 1
-  duration: 20
+  duration: 50
   interval: 0
   modifiers:
   - category: 2
