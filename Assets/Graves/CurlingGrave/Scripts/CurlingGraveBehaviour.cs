@@ -36,6 +36,20 @@ public class CurlingGraveBehaviour : MonoBehaviour
         dt.ExtractStatus(statusContainer.GetStatus());
         sc.ApplyOneTimeToken(dt);
     }
+    // 相手から自分へのベクトルを反射面の法線として扱い、directionを反射させる
+    private void Reflect(Vector3 otherPosition)
+    {
+        Vector3 normal = transform.position - otherPosition;
+        normal.z = 0f;
+        if (normal.sqrMagnitude < Mathf.Epsilon) return;
+        normal.Normalize();
+
+        // 既に相手から離れる向きに進んでいる場合は反射しない(二重反射防止)
+        if (Vector3.Dot(direction, normal) >= 0f) return;
+
+        direction = Vector3.Reflect(direction, normal);
+    }
+
     private IEnumerator LifeCountDown()
     {
         yield return new WaitForSeconds(lifeTime);
@@ -47,8 +61,8 @@ public class CurlingGraveBehaviour : MonoBehaviour
         if (collision.CompareTag("Enemy") &&
             collision.TryGetComponent<StatusContainer>(out var hasSC))
         {
-
             Attack(hasSC);
+            Reflect(collision.transform.position);
         }
 
     }
