@@ -10,20 +10,24 @@ usty_gleap\Assets\Weapons\SystemSample\Script\DummyPlayerBehaviour.cs
 usty_gleap\Assets\Weapons\Blade
 usty_gleap\Assets\Weapons\Bullet
 usty_gleap\Assets\Weapons\Bomb
+usty_gleap\Assets\Weapons\Prism
 これらにも今まで作った武器のスクリプトがあります。参考にしてください。
+
+WeaponCoreになるのものはWeaponCoreIntefaceが付いていて、
+そこから生成するようなやつはWeaponInterfaceが付いているのが大体です。
 
 これらを踏まえて以下の要望に応えてください。
 
 --------------------------------------------------------
 
-C:\Users\inoue\usty_gleap\Assets\Weapons\Prism\Scripts\PrismCoreBehaviour.cs
+usty_gleap\Assets\Weapons\Prism\Scripts\PrismCoreBehaviour.cs
 ここにはPrismCoreの挙動を記述します。
 public変数にGameObjectでprismStonePrefabを持ちます。
 そして、このクラスではWeaponCoreInterfaceを持ちます。
 また、public StatusContainer statusContainerを持っていて自分のステータスも入れるようにします。
 個の武器は通常の攻撃武器でしかありません。なのでダメージトークンを用います。
 
-C:\Users\inoue\usty_gleap\Assets\Weapons\Prism\Scripts\PrismStoneBehaviour.cs
+usty_gleap\Assets\Weapons\Prism\Scripts\PrismStoneBehaviour.cs
 ここにはPrismStoneの挙動を記述します。
 このクラスではWeaponInterfaceを実装しています。
 このオブジェクトは三つ集まると三つの頂点を結んだ三角形の中にいる敵にダメージを与えます。
@@ -33,3 +37,16 @@ C:\Users\inoue\usty_gleap\Assets\Weapons\Prism\Scripts\PrismStoneBehaviour.cs
 static変数によってシーンにあるStoneの数をカウントして、位置も保存しておくといいかもしれません。
 static変数は三つ出て攻撃した後にすべて消去します。
 ストーンも三つあったら消滅するようにします。
+
+---------------------------------------------------------
+
+usty_gleap\Assets\Weapons\Prism\Scripts\PrismCoreBehaviour.cs
+修正点があります。BombFragmentのように射出するようにして下さい。
+
+usty_gleap\Assets\Weapons\Prism\Scripts\PrismStoneBehaviour.cs
+囲んだときに前の二つが消えてしまっているので、消えないようにしてください。そろうと緑色に変化するようにしてもらえると嬉しいです。
+生成される三角形ですが、中を透明度のある白色で満たしてくれないでしょうか？
+
+----------------------------------------------------------
+
+もう少し距離を伸ばしたいのですがどうすればいいでしょうか？

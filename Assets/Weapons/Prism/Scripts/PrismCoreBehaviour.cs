@@ -39,10 +39,13 @@ public class PrismCoreBehaviour : MonoBehaviour, WeaponCoreInterface
             return;
         }
 
-        // 他の武器と同様に、向いている方向の逆（後ろ）に設置する
-        Vector3 spawnPos = transform.position + (-transform.up) * spawnDistance;
+        // 他の武器と同様に、向いている方向の逆（後ろ）へ射出する
+        Vector3 dir = -transform.up;
+        Vector3 spawnPos = transform.position + dir * spawnDistance;
 
-        GameObject stone = Instantiate(prismStonePrefab, spawnPos, Quaternion.identity);
+        // BombFragmentと同様に、Stoneのtransform.rightが射出方向を向くように生成する
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        GameObject stone = Instantiate(prismStonePrefab, spawnPos, Quaternion.Euler(0f, 0f, angle));
 
         WeaponInterface wi = stone.GetComponent<WeaponInterface>();
         wi.Init();
