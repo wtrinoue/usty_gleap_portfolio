@@ -22,6 +22,7 @@ public enum UstyCategory
     GraveItem,
     ModifierItem,
     Grave,
+    ItemBox,
 }
 
 
