@@ -45,6 +45,7 @@ public class BulletForWeaponBehaviour : MonoBehaviour, WeaponInterface
             collision.TryGetComponent<StatusContainer>(out var hasSC))
         {
             hasSC.ApplyOneTimeToken(statusToken);
+            DestroyBullet();
         }
     }
 

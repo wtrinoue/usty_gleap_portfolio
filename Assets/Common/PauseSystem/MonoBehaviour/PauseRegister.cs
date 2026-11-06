@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class PauseRegister : MonoBehaviour
@@ -16,26 +15,45 @@ public class PauseRegister : MonoBehaviour
         InitializePausables();
     }
 
+    // 有効化されるたびに登録する（SetActive(true)での再有効化にも対応）
+    private void OnEnable()
+    {
+        RegisterAll();
+    }
+
+    // シーン開始時にOnEnableの時点でPauseManagerが未生成だった場合の保険
+    // （Registerは二重登録されないので、重複して呼んでも問題ない）
     private void Start()
     {
-        if (_pausableCache == null) return;
-
-        // PauseManagerに登録
-        foreach (var pausable in _pausableCache)
-        {
-            PauseManager.Instance.Register(pausable);
-            Debug.Log("登録しました！");
-        }
+        RegisterAll();
     }
 
     private void OnDisable()
     {
         if (_pausableCache == null) return;
 
+        // シーン終了時などでPauseManagerが先に破棄されている場合は何もしない
+        var manager = PauseManager.Instance;
+        if (manager == null) return;
+
         // PauseManagerから解除
         foreach (var pausable in _pausableCache)
         {
-            PauseManager.Instance.Unregister(pausable);
+            manager.Unregister(pausable);
+        }
+    }
+
+    private void RegisterAll()
+    {
+        if (_pausableCache == null) return;
+
+        var manager = PauseManager.Instance;
+        if (manager == null) return;
+
+        // PauseManagerに登録
+        foreach (var pausable in _pausableCache)
+        {
+            manager.Register(pausable);
         }
     }
 
