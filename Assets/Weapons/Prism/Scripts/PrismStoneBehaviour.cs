@@ -13,6 +13,9 @@ public class PrismStoneBehaviour : MonoBehaviour, WeaponInterface
     [SerializeField] private float speed = 6f;      // 射出直後の速さ
     [SerializeField] private float moveTime = 0.4f; // 停止するまでの秒数（徐々に減速）
 
+    [Header("Life Settings")]
+    [SerializeField] private float idleLifeTime = 8f; // 新しいStoneが来ないまま、この秒数が経つと消滅
+
     [Header("Area Settings")]
     [SerializeField] private float areaDisplayTime = 0.5f; // 三角形を表示してから消えるまでの秒数
     [SerializeField] private float lineWidth = 0.05f;
@@ -30,6 +33,7 @@ public class PrismStoneBehaviour : MonoBehaviour, WeaponInterface
     private bool registered = false;
     private bool moving = false;
     private float moveTimer = 0f;
+    private float idleTimer = 0f;
     private Vector3 moveDirection;
 
     // Domain Reloadを無効にしている場合でもstaticが残らないようにする
@@ -57,6 +61,18 @@ public class PrismStoneBehaviour : MonoBehaviour, WeaponInterface
 
     void Update()
     {
+        // 設置済みで3つ揃うのを待っている間、一定時間何もなければ消滅
+        // （OnDestroyでstatic変数からも削除される）
+        if (registered)
+        {
+            idleTimer += Time.deltaTime;
+            if (idleTimer >= idleLifeTime)
+            {
+                Destroy(gameObject);
+            }
+            return;
+        }
+
         if (!moving) return;
 
         moveTimer += Time.deltaTime;
@@ -78,6 +94,12 @@ public class PrismStoneBehaviour : MonoBehaviour, WeaponInterface
 
         stones.Add(this);
         stonePositions.Add(transform.position);
+
+        // 新しいStoneが来たので、待機中のStone全員の消滅カウントをリセット
+        foreach (PrismStoneBehaviour stone in stones)
+        {
+            if (stone != null) stone.idleTimer = 0f;
+        }
 
         // 3つ目のStoneが攻撃を担当する
         if (stones.Count >= RequiredStoneCount)

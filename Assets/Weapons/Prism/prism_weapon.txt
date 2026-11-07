@@ -50,3 +50,8 @@ usty_gleap\Assets\Weapons\Prism\Scripts\PrismStoneBehaviour.cs
 ----------------------------------------------------------
 
 もう少し距離を伸ばしたいのですがどうすればいいでしょうか？
+
+-----------------------------------------------------------
+
+usty_gleap\Assets\Weapons\Prism\Scripts\PrismStoneBehaviour.cs
+二つしか出さないとシーンに残ったままになってしまうので、8秒間何もなかったら消滅してstatic変数からも削除されるようにしてください。
