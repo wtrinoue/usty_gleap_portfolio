@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 // ブーメランの「発射台」。クリックで生成され、ブーメラン本体を1つ投げたら自分は消える。
 public class BoomerangCoreBehaviour : MonoBehaviour, WeaponCoreInterface
@@ -69,7 +68,7 @@ public class BoomerangCoreBehaviour : MonoBehaviour, WeaponCoreInterface
     void Spawn()
     {
         Vector2 origin = transform.position;
-        Vector2 dir = GetMouseDirection(origin);
+        Vector2 dir = GetFireDirection();
 
         // ブーメランはプレイヤーに付いて動かないよう、親なし（ワールド）に生成する
         GameObject child = Instantiate(boomerangPrefab, origin, Quaternion.identity);
@@ -91,18 +90,10 @@ public class BoomerangCoreBehaviour : MonoBehaviour, WeaponCoreInterface
         return transform.parent; // 見つからなければ親。どちらも無ければ発射地点に戻る
     }
 
-    // マウスカーソルの方向を求める
-    Vector2 GetMouseDirection(Vector2 origin)
+    // 発射方向を Core の向きから求める
+    // （PlayerAction の OnFire で、Core はマウスと逆向きの方向に合わせて回転済み）
+    Vector2 GetFireDirection()
     {
-        Camera cam = Camera.main;
-        if (cam == null || Mouse.current == null) return Vector2.right;
-
-        Vector3 screenPos = Mouse.current.position.ReadValue();
-        screenPos.z = -cam.transform.position.z;
-        Vector2 mouseWorld = cam.ScreenToWorldPoint(screenPos);
-
-        Vector2 dir = mouseWorld - origin;
-        if (dir.sqrMagnitude < 0.0001f) return Vector2.right;
-        return dir.normalized;
+        return -transform.up;
     }
 }

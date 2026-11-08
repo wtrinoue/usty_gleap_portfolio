@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // ブーメラン本体。 行く → 戻る → プレイヤーを通り抜ける → 消える
@@ -22,6 +23,9 @@ public class BoomerangBehaviour : MonoBehaviour, WeaponInterface
     private float traveled = 0f;    // 今のフェーズで進んだ距離
     private float returnTime = 0f;  // 戻り始めてからの時間
     private float life = 0f;
+
+    // 「行き」「帰り」それぞれで、すでに当たった敵（同じ敵に何回も当たらないようにする）
+    private readonly HashSet<StatusContainer> hitTargets = new();
 
     // 折り返し前に減速、戻りで加速する（見た目をブーメランっぽくするため）
     const float MinSpeedRate = 0.3f;
@@ -87,6 +91,7 @@ public class BoomerangBehaviour : MonoBehaviour, WeaponInterface
                 {
                     phase = Phase.Returning;
                     returnTime = 0f;
+                    hitTargets.Clear(); // 帰りでもう一度当たれるようにする
                 }
                 break;
             }
@@ -139,12 +144,16 @@ public class BoomerangBehaviour : MonoBehaviour, WeaponInterface
     {
         if (!enableAttack) return;
 
-        // 投げた本人（プレイヤー）にはダメージを与えない
-        if (other.CompareTag("Player")) return;
-        if (owner != null && other.transform.IsChildOf(owner)) return;
+        // 敵にだけダメージを与える
+        if (!other.CompareTag("Enemy")) return;
 
         StatusContainer otherSC = other.gameObject.GetComponent<StatusContainer>();
         if (otherSC == null) return;
+
+        // この往路（または復路）ですでに当たっていたら何もしない
+        if (!hitTargets.Add(otherSC)) return;
+
+        Debug.Log($"ブーメランヒット: {other.name}");
         otherSC.ApplyOneTimeToken(statusToken);
     }
 }
