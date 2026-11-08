@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(Collider2D))]
 public class WeaponItemBehaviour : MonoBehaviour
 {
     [Header("Weapon Core Setting")]

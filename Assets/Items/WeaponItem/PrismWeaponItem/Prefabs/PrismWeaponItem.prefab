@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4527318585303254899}
   - component: {fileID: 8254478538812237282}
-  - component: {fileID: 3141174143478023907}
   - component: {fileID: 4311220675874941169}
+  - component: {fileID: 4645431377143143695}
   m_Layer: 0
   m_Name: PrismWeaponItem
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.171562, y: -6.5571394, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -81,8 +81,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
-  m_Color: {r: 0.30212915, g: 1, b: 0, a: 1}
+  m_Sprite: {fileID: 2896966020619022871, guid: 736d29fb5574b124b828a239d4f57bf1, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -92,8 +92,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &3141174143478023907
-CapsuleCollider2D:
+--- !u!114 &4311220675874941169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3737973430555849358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 862a7dbfa4152ba4d8899dd2f989ef92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponItemBehaviour
+  weaponCores:
+  - {fileID: 1330204687460403270, guid: 7881a07d2b9b2cb4cae73c182c2c8f46, type: 3}
+--- !u!60 &4645431377143143695
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -127,19 +141,23 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
-  m_Direction: 0
---- !u!114 &4311220675874941169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3737973430555849358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 862a7dbfa4152ba4d8899dd2f989ef92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponItemBehaviour
-  weaponCores:
-  - {fileID: 1330204687460403270, guid: 7881a07d2b9b2cb4cae73c182c2c8f46, type: 3}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.52, y: 0.6}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.22999999, y: 0.29999998}
+      - {x: -0.25, y: 0.29999998}
+      - {x: -0.26, y: 0.29}
+      - {x: -0.26, y: -0.26}
+      - {x: -0.19999999, y: -0.29999998}
+      - {x: 0.22, y: -0.29999998}
+      - {x: 0.26, y: -0.24}
+      - {x: 0.26, y: 0.29}
+  m_UseDelaunayMesh: 0
